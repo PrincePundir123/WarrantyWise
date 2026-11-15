@@ -3,393 +3,298 @@
 import React, { useState } from "react";
 import Link from "next/link";
 import {
-  ShieldAlert,
   ArrowLeft,
-  FileText,
-  Network,
-  Download,
-  CheckCircle2,
-  AlertTriangle,
-  FileCheck,
-  ChevronRight,
-  ExternalLink,
-  Layers,
   Printer,
-  Clock,
-  Sparkles,
+  FileText,
+  Layers,
+  Network,
+  CheckCircle2,
+  AlertCircle,
+  ExternalLink,
+  ChevronRight,
+  Shield,
+  FileCheck,
+  Compass,
 } from "lucide-react";
-import { Button } from "@/components/ui/Button";
-import { Badge } from "@/components/ui/Badge";
-import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/Card";
 import { SAMPLE_CASES } from "@/lib/demo-data";
 import { SAMPLE_DOCUMENTS, SAMPLE_FACTS, SAMPLE_CLAUSES } from "@/lib/demo-details";
 import { EvidenceGraphViewer } from "@/components/evidence-graph/EvidenceGraphViewer";
 import { formatDate } from "@/lib/utils";
 
-export default function CaseWorkspacePage() {
-  const caseData = SAMPLE_CASES[0]; // Washing machine featured case
+export default function EditorialCaseWorkspacePage() {
+  const caseData = SAMPLE_CASES[0]; // Washing machine specimen
   const [activeTab, setActiveTab] = useState<"overview" | "documents" | "investigation" | "graph" | "report">("overview");
 
   return (
-    <div className="min-h-screen bg-[#F7F8FA] flex flex-col font-sans">
-      {/* Top Header */}
-      <header className="bg-white border-b border-slate-200 px-6 py-4 flex flex-col md:flex-row md:items-center justify-between gap-4 sticky top-0 z-30 shadow-xs">
-        <div className="flex items-center gap-4">
-          <Link href="/dashboard" className="text-slate-400 hover:text-slate-800 transition-colors">
-            <ArrowLeft className="h-5 w-5" />
-          </Link>
-          <div>
-            <div className="flex items-center gap-2">
-              <span className="text-xs font-mono font-semibold text-slate-500 uppercase tracking-wider">
-                Case #{caseData.claim_reference || "WW-2026-01"}
-              </span>
-              <Badge variant="contradicted">Rejection Contradicted</Badge>
-              <Badge variant="outline">Deterministic & Red-Team Audited</Badge>
+    <div className="min-h-screen bg-[#F4F1EA] text-[#1F231F] font-sans selection:bg-[#AD593E] selection:text-white flex flex-col">
+      {/* 1. Header Navigation */}
+      <header className="border-b border-[#DED8CB] bg-[#F4F1EA] sticky top-0 z-40">
+        <div className="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
+          <div className="flex items-center gap-4">
+            <Link
+              href="/dashboard"
+              className="text-[#5F665E] hover:text-[#1F231F] transition-colors p-1"
+              title="Return to Registry"
+            >
+              <ArrowLeft className="h-4 w-4" />
+            </Link>
+            <div>
+              <div className="flex items-center gap-3">
+                <span className="font-mono text-[10px] uppercase tracking-widest text-[#5F665E]">
+                  DOSSIER #{caseData.claim_reference || "EAC-CLAIM-882194"}
+                </span>
+                <span className="inline-block px-2 py-0.5 text-[10px] font-mono uppercase tracking-wider text-[#AD593E] bg-[#FBF0EC] border border-[#AD593E]/30 font-semibold">
+                  Conclusion: Contradicted
+                </span>
+              </div>
+              <h1 className="text-xl sm:text-2xl font-serif font-normal text-[#1F231F] tracking-tight mt-0.5">
+                {caseData.title}
+              </h1>
             </div>
-            <h1 className="text-xl font-extrabold text-[#14233B] tracking-tight mt-0.5">
-              {caseData.title}
-            </h1>
           </div>
-        </div>
 
-        <div className="flex items-center gap-3">
-          <button
-            onClick={() => setActiveTab("report")}
-            className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-slate-300 bg-white text-xs font-semibold text-slate-700 hover:bg-slate-50 shadow-xs"
-          >
-            <Printer className="h-4 w-4 text-slate-500" />
-            Print / PDF Report
-          </button>
-          <Link href="/cases/new">
-            <Button variant="primary" size="sm">
-              New Case
-            </Button>
-          </Link>
+          <div className="flex items-center gap-4">
+            <button
+              onClick={() => setActiveTab("report")}
+              className="px-3.5 py-2 border border-[#1F231F] text-[#1F231F] hover:bg-[#EAE5D9] text-xs font-mono uppercase tracking-wider flex items-center gap-1.5 transition-colors cursor-pointer"
+            >
+              <Printer className="h-3.5 w-3.5" />
+              Print Forensic Dossier
+            </button>
+            <Link
+              href="/cases/new"
+              className="px-4 py-2 bg-[#1F231F] hover:bg-[#383D38] text-[#FAF8F5] text-xs font-mono uppercase tracking-wider transition-colors hidden sm:inline"
+            >
+              New Audit
+            </Link>
+          </div>
         </div>
       </header>
 
-      {/* Tab Navigation */}
-      <div className="bg-white border-b border-slate-200 px-6">
-        <nav className="flex space-x-6 text-xs font-semibold">
-          {[
-            { id: "overview", label: "Overview & Findings", icon: Layers },
-            { id: "documents", label: `Documents (${SAMPLE_DOCUMENTS.length})`, icon: FileText },
-            { id: "investigation", label: "6-Stage Audit Trail", icon: Sparkles },
-            { id: "graph", label: "Evidence Lineage Graph", icon: Network },
-            { id: "report", label: "Final Investigation Report", icon: FileCheck },
-          ].map((t) => {
-            const Icon = t.icon;
-            return (
+      {/* 2. Editorial Tab Strip */}
+      <div className="border-b border-[#DED8CB] bg-[#FAF8F5]">
+        <div className="max-w-7xl mx-auto px-6">
+          <nav className="flex space-x-8 text-xs font-mono uppercase tracking-wider">
+            {[
+              { id: "overview", label: "01 // Overview & Verdict" },
+              { id: "documents", label: `02 // Evidence Vault (${SAMPLE_DOCUMENTS.length})` },
+              { id: "investigation", label: "03 // 6-Stage Audit Trail" },
+              { id: "graph", label: "04 // Lineage Graph" },
+              { id: "report", label: "05 // Final Report" },
+            ].map((t) => (
               <button
                 key={t.id}
                 onClick={() => setActiveTab(t.id as any)}
-                className={`py-3 flex items-center gap-2 border-b-2 transition-colors cursor-pointer ${
+                className={`py-3.5 border-b-2 transition-colors cursor-pointer ${
                   activeTab === t.id
-                    ? "border-[#3867E8] text-[#3867E8]"
-                    : "border-transparent text-slate-500 hover:text-slate-800"
+                    ? "border-[#1F231F] text-[#1F231F] font-bold"
+                    : "border-transparent text-[#5F665E] hover:text-[#1F231F]"
                 }`}
               >
-                <Icon className="h-4 w-4" />
                 {t.label}
               </button>
-            );
-          })}
-        </nav>
+            ))}
+          </nav>
+        </div>
       </div>
 
-      {/* Main Workspace Body */}
-      <main className="flex-1 p-6 max-w-7xl mx-auto w-full space-y-6">
+      {/* 3. Main Workspace Area */}
+      <main className="max-w-7xl mx-auto px-6 py-10 flex-1 w-full space-y-10">
         {/* OVERVIEW TAB */}
         {activeTab === "overview" && (
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
-            <div className="lg:col-span-8 space-y-6">
-              {/* Manufacturer Stated Denial vs Deterministic Truth */}
-              <Card>
-                <CardHeader>
-                  <CardTitle className="text-base text-red-600 flex items-center gap-2">
-                    <AlertTriangle className="h-5 w-5" />
-                    Manufacturer Rejection vs. Evidence Reality
-                  </CardTitle>
-                </CardHeader>
-                <CardContent className="space-y-4 text-xs">
-                  <div className="p-3.5 bg-red-50/70 border border-red-200 rounded-lg">
-                    <span className="font-bold text-red-800 uppercase tracking-wider text-[11px] block mb-1">
-                      Manufacturer&apos;s Stated Reason (Dec 20, 2025)
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-start">
+            {/* Left 7 Cols: Claim vs Proof Ledger */}
+            <div className="lg:col-span-8 space-y-10">
+              {/* Manufacturer Statement vs Deterministic Proof */}
+              <div className="border-t-2 border-[#1F231F] pt-6 space-y-4">
+                <span className="text-[10px] font-mono uppercase tracking-widest text-[#5F665E] block">
+                  MANUFACTURER DENIAL ASSERTION &bull; DEC 20, 2025
+                </span>
+                <blockquote className="font-serif italic text-lg sm:text-xl text-[#1F231F] leading-snug pl-4 border-l-2 border-[#AD593E]">
+                  &ldquo;{caseData.rejection_reason}&rdquo;
+                </blockquote>
+              </div>
+
+              {/* Forensic Examination Breakdown */}
+              <div className="space-y-6 pt-4 border-t border-[#DED8CB]">
+                <div className="text-[10px] font-mono uppercase tracking-widest text-[#55604A]">
+                  DETERMINISTIC EVALUATION &bull; 2 IRRECONCILABLE CONTRADICTIONS
+                </div>
+
+                {/* Finding 1 */}
+                <div className="bg-[#FAF8F5] border border-[#DED8CB] p-6 space-y-3">
+                  <div className="flex items-center justify-between border-b border-[#DED8CB] pb-3">
+                    <span className="font-serif text-base font-bold text-[#1F231F]">
+                      1. Expiry Assertion Contradicted by Purchase Invoice
                     </span>
-                    <p className="text-slate-700 italic">
-                      &ldquo;{caseData.rejection_reason}&rdquo;
-                    </p>
-                  </div>
-
-                  <div className="p-3.5 bg-emerald-50 border border-emerald-200 rounded-lg space-y-2">
-                    <span className="font-bold text-emerald-800 uppercase tracking-wider text-[11px] block">
-                      Deterministic Investigation Outcome: CONTRADICTED
+                    <span className="text-[10px] font-mono uppercase tracking-wider text-[#AD593E] font-bold">
+                      CONTRADICTED
                     </span>
-                    <p className="text-slate-700 leading-relaxed">
-                      1. <strong>Warranty Duration Check:</strong> Purchase invoice dates sale to <strong>January 10, 2025</strong>. Policy Section 3.1 guarantees a 12-month duration commencing on purchase date (valid through <strong>January 10, 2026</strong>). The rejection date of December 20, 2025 was issued while product was fully covered.
-                    </p>
-                    <p className="text-slate-700 leading-relaxed">
-                      2. <strong>Exclusion Burden of Proof:</strong> Section 4.2 requires diagnostic verification of liquid causation. The technician filed only an external visual suspicion; the moisture sensor strip was never triggered or tested.
-                    </p>
                   </div>
-                </CardContent>
-              </Card>
+                  <p className="text-xs text-[#383D38] leading-relaxed">
+                    The manufacturer denied the claim citing that coverage expired on Jan 9, 2026. However, original purchase occurred on <strong>Jan 10, 2025</strong>. Policy Section 3.1 guarantees a 12-month period from retail purchase date (valid through <strong>Jan 10, 2026</strong>). Denial on Dec 20, 2025 was premature.
+                  </p>
+                  <div className="pt-2 text-[11px] font-mono text-[#5F665E] space-y-1 border-t border-[#DED8CB]/60">
+                    <div>&bull; Citation 1: Invoice-Purchase-20250110.pdf &bull; Pg 1 (Purchase: 2025-01-10)</div>
+                    <div>&bull; Citation 2: Policy-Section-3.1 &bull; Pg 2 (12 calendar months duration)</div>
+                  </div>
+                </div>
 
-              {/* Key Findings List */}
-              <div className="space-y-3">
-                <h3 className="text-sm font-bold text-slate-800 uppercase tracking-wider">
-                  Verifiable Findings & Citations
-                </h3>
-
-                <Card className="border-l-4 border-l-red-500">
-                  <CardContent className="p-4 space-y-2 text-xs">
-                    <div className="flex items-center justify-between">
-                      <span className="font-bold text-slate-900 text-sm">
-                        Expiry Date Contradiction
-                      </span>
-                      <Badge variant="contradicted">Contradicted</Badge>
-                    </div>
-                    <p className="text-slate-600 leading-relaxed">
-                      Manufacturer assertion that coverage lapsed on Jan 9, 2026 is mathematically contradicted by the purchase invoice date (Jan 10, 2025) and claim timing (Dec 20, 2025).
-                    </p>
-                    <div className="bg-slate-50 p-2.5 rounded border border-slate-200 text-[11px] text-slate-600 space-y-1">
-                      <div><strong>Source Citation 1:</strong> Invoice-Purchase-20250110.pdf &bull; Page 1 &bull; <em>&ldquo;Invoice Date: 10 January 2025&rdquo;</em></div>
-                      <div><strong>Source Citation 2:</strong> Manufacturer-Warranty-Policy-EAC.pdf &bull; Page 2 &bull; <em>&ldquo;12 months commencing upon date of original retail purchase&rdquo;</em></div>
-                    </div>
-                  </CardContent>
-                </Card>
-
-                <Card className="border-l-4 border-l-amber-500">
-                  <CardContent className="p-4 space-y-2 text-xs">
-                    <div className="flex items-center justify-between">
-                      <span className="font-bold text-slate-900 text-sm">
-                        Unproven Liquid Damage Exclusion
-                      </span>
-                      <Badge variant="insufficient">Insufficient Evidence</Badge>
-                    </div>
-                    <p className="text-slate-600 leading-relaxed">
-                      Field technician noted &apos;liquid damage suspected&apos; without completing internal moisture test or providing photos of PCB corrosion.
-                    </p>
-                    <div className="bg-slate-50 p-2.5 rounded border border-slate-200 text-[11px] text-slate-600">
-                      <div><strong>Source Citation:</strong> Technician-Field-Inspection-Report.pdf &bull; Page 1 &bull; <em>&ldquo;visual inspection external only; moisture test not performed&rdquo;</em></div>
-                    </div>
-                  </CardContent>
-                </Card>
+                {/* Finding 2 */}
+                <div className="bg-[#FAF8F5] border border-[#DED8CB] p-6 space-y-3">
+                  <div className="flex items-center justify-between border-b border-[#DED8CB] pb-3">
+                    <span className="font-serif text-base font-bold text-[#1F231F]">
+                      2. Unsubstantiated Liquid Damage Exclusion
+                    </span>
+                    <span className="text-[10px] font-mono uppercase tracking-wider text-[#B0823C] font-bold">
+                      UNPROVEN EXCLUSION
+                    </span>
+                  </div>
+                  <p className="text-xs text-[#383D38] leading-relaxed">
+                    Section 4.2 excludes liquid ingress only where diagnostic causation is verified. The service report explicitly records visual exterior suspicion only; the moisture sensor strip was not triggered or tested.
+                  </p>
+                  <div className="pt-2 text-[11px] font-mono text-[#5F665E] border-t border-[#DED8CB]/60">
+                    &bull; Citation: Technician-Field-Inspection-Report.pdf &bull; Pg 1 (&ldquo;visual inspection external only; moisture strip test not performed&rdquo;)
+                  </div>
+                </div>
               </div>
             </div>
 
-            {/* Right Side Metadata & Recommended Actions */}
-            <div className="lg:col-span-4 space-y-6">
-              <Card>
-                <CardHeader>
-                  <CardTitle className="text-sm">Product Profile</CardTitle>
-                </CardHeader>
-                <CardContent className="space-y-3 text-xs text-slate-600">
-                  <div className="flex justify-between py-1 border-b border-slate-100">
-                    <span className="font-medium text-slate-400">Product</span>
-                    <span className="font-bold text-slate-800">{caseData.product_name}</span>
+            {/* Right 4 Cols: Product Profile & Recommended Action */}
+            <div className="lg:col-span-4 space-y-8">
+              {/* Product Specifications Ledger */}
+              <div className="border border-[#DED8CB] bg-[#FAF8F5] p-6 space-y-4 text-xs font-mono">
+                <span className="text-[10px] font-bold text-[#5F665E] uppercase tracking-widest block border-b border-[#DED8CB] pb-2">
+                  SUBJECT PRODUCT SPECIFICATION
+                </span>
+                <div className="space-y-2.5 text-[#383D38]">
+                  <div className="flex justify-between">
+                    <span className="text-[#5F665E]">Product</span>
+                    <span className="text-[#1F231F] font-bold">{caseData.product_name}</span>
                   </div>
-                  <div className="flex justify-between py-1 border-b border-slate-100">
-                    <span className="font-medium text-slate-400">Brand</span>
-                    <span className="font-semibold text-slate-800">{caseData.manufacturer}</span>
+                  <div className="flex justify-between">
+                    <span className="text-[#5F665E]">Brand</span>
+                    <span className="text-[#1F231F]">{caseData.manufacturer}</span>
                   </div>
-                  <div className="flex justify-between py-1 border-b border-slate-100">
-                    <span className="font-medium text-slate-400">Model #</span>
-                    <span className="font-mono text-slate-800">{caseData.model_number}</span>
+                  <div className="flex justify-between">
+                    <span className="text-[#5F665E]">Model #</span>
+                    <span className="text-[#1F231F]">{caseData.model_number}</span>
                   </div>
-                  <div className="flex justify-between py-1 border-b border-slate-100">
-                    <span className="font-medium text-slate-400">Serial #</span>
-                    <span className="font-mono text-slate-800">{caseData.serial_number}</span>
+                  <div className="flex justify-between">
+                    <span className="text-[#5F665E]">Serial #</span>
+                    <span className="text-[#1F231F]">{caseData.serial_number}</span>
                   </div>
-                  <div className="flex justify-between py-1 border-b border-slate-100">
-                    <span className="font-medium text-slate-400">Purchase Date</span>
-                    <span className="font-semibold text-slate-800">{formatDate(caseData.purchase_date)}</span>
+                  <div className="flex justify-between">
+                    <span className="text-[#5F665E]">Purchase Date</span>
+                    <span className="text-[#1F231F] font-bold">{formatDate(caseData.purchase_date)}</span>
                   </div>
-                  <div className="flex justify-between py-1">
-                    <span className="font-medium text-slate-400">Purchase Price</span>
-                    <span className="font-semibold text-slate-800">${caseData.purchase_price?.toFixed(2)} USD</span>
+                  <div className="flex justify-between">
+                    <span className="text-[#5F665E]">Purchase Price</span>
+                    <span className="text-[#1F231F]">${caseData.purchase_price?.toFixed(2)} USD</span>
                   </div>
-                </CardContent>
-              </Card>
+                </div>
+              </div>
 
-              {/* Recommended Action Card */}
-              <Card className="bg-blue-50/50 border-blue-200">
-                <CardHeader>
-                  <CardTitle className="text-sm text-[#14233B] flex items-center gap-2">
-                    <FileCheck className="h-4 w-4 text-[#3867E8]" />
-                    Recommended Consumer Next Action
-                  </CardTitle>
-                </CardHeader>
-                <CardContent className="text-xs text-slate-700 space-y-3">
-                  <p>
-                    Submit a formal Warranty Denial Dispute Letter attaching:
-                  </p>
-                  <ul className="list-disc list-inside space-y-1 text-slate-600">
-                    <li>Invoice copy showing Jan 10, 2025 purchase date.</li>
-                    <li>Section 3.1 policy excerpt proving active coverage window.</li>
-                    <li>Demand for technician photographic proof of internal liquid corrosion.</li>
-                  </ul>
-                  <button
-                    onClick={() => setActiveTab("report")}
-                    className="w-full mt-2 py-2 px-3 bg-[#14233B] hover:bg-[#1B2F4E] text-white rounded-lg text-xs font-semibold text-center transition-colors"
-                  >
-                    View Ready-to-Send Investigation Report
-                  </button>
-                </CardContent>
-              </Card>
+              {/* Recommended Action Notice */}
+              <div className="border-l-2 border-[#1F231F] pl-4 space-y-3 text-xs">
+                <span className="text-[10px] font-mono uppercase tracking-widest text-[#AD593E] block font-bold">
+                  RECOMMENDED NEXT DISPUTE ACTION
+                </span>
+                <p className="text-[#383D38] leading-relaxed">
+                  Submit a formal Warranty Rejection Appeal letter enclosing:
+                </p>
+                <ol className="list-decimal list-inside space-y-1.5 text-[#5F665E] font-mono text-[11px]">
+                  <li>Invoice copy verifying Jan 10, 2025 purchase date.</li>
+                  <li>Section 3.1 policy clause establishing 12-month term.</li>
+                  <li>Demand for photographic proof of internal liquid corrosion.</li>
+                </ol>
+                <button
+                  onClick={() => setActiveTab("report")}
+                  className="w-full mt-4 py-2.5 bg-[#1F231F] hover:bg-[#383D38] text-[#FAF8F5] text-xs font-mono uppercase tracking-wider transition-colors cursor-pointer"
+                >
+                  Generate Appeal Letter &rarr;
+                </button>
+              </div>
             </div>
           </div>
         )}
 
         {/* DOCUMENTS TAB */}
         {activeTab === "documents" && (
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
-            <div className="lg:col-span-5 space-y-3">
-              <h3 className="text-sm font-bold text-slate-800 uppercase tracking-wider">
-                Documentary Evidence Vault ({SAMPLE_DOCUMENTS.length})
-              </h3>
-              {SAMPLE_DOCUMENTS.map((doc) => (
-                <div
-                  key={doc.id}
-                  className="p-4 bg-white rounded-xl border border-slate-200 space-y-2 hover:border-[#3867E8] transition-colors"
-                >
-                  <div className="flex items-center justify-between">
-                    <div className="flex items-center gap-2 font-bold text-xs text-slate-900">
-                      <FileText className="h-4 w-4 text-[#3867E8]" />
-                      {doc.original_filename}
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-12">
+            <div className="lg:col-span-5 space-y-4">
+              <span className="text-[10px] font-mono uppercase tracking-widest text-[#5F665E] block">
+                INGESTED DOSSIER ARTIFACTS ({SAMPLE_DOCUMENTS.length})
+              </span>
+              <div className="border border-[#DED8CB] divide-y divide-[#DED8CB] bg-[#FAF8F5]">
+                {SAMPLE_DOCUMENTS.map((doc) => (
+                  <div key={doc.id} className="p-4 space-y-1 text-xs font-mono">
+                    <div className="flex items-center justify-between text-[#1F231F] font-bold">
+                      <span>{doc.original_filename}</span>
+                      <span className="text-[10px] text-[#55604A] uppercase">{doc.processing_status}</span>
                     </div>
-                    <Badge variant="supported">{doc.processing_status}</Badge>
+                    <div className="text-[11px] text-[#5F665E] flex items-center justify-between">
+                      <span>TYPE: {doc.document_type}</span>
+                      <span>{doc.checksum?.substring(0, 16)}</span>
+                    </div>
                   </div>
-                  <div className="text-[11px] text-slate-500 flex items-center gap-3">
-                    <span>Type: {doc.document_type}</span>
-                    <span>Pages: {doc.page_count}</span>
-                    <span>Checksum: {doc.checksum?.substring(0, 14)}...</span>
-                  </div>
-                </div>
-              ))}
+                ))}
+              </div>
             </div>
 
-            <div className="lg:col-span-7">
-              <Card>
-                <CardHeader>
-                  <CardTitle className="text-sm">Structured Fact Provenance Log</CardTitle>
-                </CardHeader>
-                <CardContent className="space-y-4 text-xs">
-                  {SAMPLE_FACTS.map((fact) => (
-                    <div key={fact.id} className="p-3 bg-slate-50 rounded-lg border border-slate-200 space-y-1">
-                      <div className="flex items-center justify-between">
-                        <span className="font-bold text-slate-800 uppercase text-[10px] tracking-wider">
-                          {fact.fact_key}
-                        </span>
-                        <span className="text-[11px] text-emerald-600 font-semibold flex items-center gap-1">
-                          <CheckCircle2 className="h-3 w-3" />
-                          {(fact.extraction_confidence * 100).toFixed(0)}% Confidence
-                        </span>
-                      </div>
-                      <div className="text-slate-900 font-medium">{String(fact.fact_value)}</div>
-                      <div className="text-slate-500 text-[11px] pt-1">
-                        Citation: Pg {fact.source_page} &bull; <em>&ldquo;{fact.source_excerpt}&rdquo;</em>
-                      </div>
+            <div className="lg:col-span-7 space-y-6">
+              <span className="text-[10px] font-mono uppercase tracking-widest text-[#5F665E] block">
+                EXTRACTED PROVENANCE LOG
+              </span>
+              <div className="space-y-4">
+                {SAMPLE_FACTS.map((fact) => (
+                  <div key={fact.id} className="p-4 bg-[#FAF8F5] border border-[#DED8CB] space-y-1.5 text-xs">
+                    <div className="flex items-center justify-between font-mono text-[10px] uppercase text-[#5F665E]">
+                      <span>{fact.fact_key}</span>
+                      <span className="text-[#55604A] font-bold">Verified Citation</span>
                     </div>
-                  ))}
-
-                  <div className="border-t border-slate-200 pt-3">
-                    <div className="font-bold text-slate-800 text-xs mb-2">Compiled Policy Clauses:</div>
-                    {SAMPLE_CLAUSES.map((clause) => (
-                      <div key={clause.id} className="p-3 bg-blue-50/50 rounded-lg border border-blue-100 text-xs space-y-1 mb-2">
-                        <div className="font-bold text-[#14233B]">{clause.clause_reference}: {clause.clause_title}</div>
-                        <p className="text-slate-600 italic">&ldquo;{clause.clause_text}&rdquo;</p>
-                      </div>
-                    ))}
+                    <div className="font-serif text-sm font-medium text-[#1F231F]">{String(fact.fact_value)}</div>
+                    <div className="text-[11px] font-mono text-[#5F665E] italic">
+                      Pg {fact.source_page} &bull; &ldquo;{fact.source_excerpt}&rdquo;
+                    </div>
                   </div>
-                </CardContent>
-              </Card>
+                ))}
+              </div>
             </div>
           </div>
         )}
 
-        {/* INVESTIGATION 6-STAGE AUDIT TRAIL */}
+        {/* 6-STAGE AUDIT TRAIL TAB */}
         {activeTab === "investigation" && (
-          <Card>
-            <CardHeader>
-              <CardTitle>Bounded Multi-Stage Investigation Audit Log</CardTitle>
-              <p className="text-xs text-slate-500 mt-1">
-                Each stage executes bounded reasoning with deterministic checks and independent red-team verification.
-              </p>
-            </CardHeader>
-            <CardContent className="space-y-6">
+          <div className="space-y-8 max-w-4xl">
+            <span className="text-[10px] font-mono uppercase tracking-widest text-[#5F665E] block">
+              BOUNDED MULTI-STAGE REASONING PIPELINE
+            </span>
+            <div className="space-y-6 border-l-2 border-[#1F231F] pl-6">
               {[
-                {
-                  stage: "Stage A",
-                  name: "Claim Parser",
-                  desc: "Parsed manufacturer denial letter EAC-CLAIM-882194. Stated assertions: 'Warranty expired on Jan 9, 2026' and 'Liquid damage suspected'.",
-                  badge: "Completed",
-                  source: "Warranty-Rejection-Notice.pdf (Pg 1)",
-                },
-                {
-                  stage: "Stage B",
-                  name: "Policy Analyst",
-                  desc: "Identified Section 3.1 (12-month coverage starting on purchase date) and Section 4.2 (Liquid damage exclusion requiring diagnostic proof).",
-                  badge: "Completed",
-                  source: "Manufacturer-Warranty-Policy-EAC.pdf (Pg 2, 4)",
-                },
-                {
-                  stage: "Stage C",
-                  name: "Evidence Analyst",
-                  desc: "Extracted invoice purchase date (Jan 10, 2025) and service report observations ('external liquid suspected; internal sensors not tested').",
-                  badge: "Completed",
-                  source: "Invoice-Purchase-20250110.pdf (Pg 1), Technician-Field-Inspection-Report.pdf (Pg 1)",
-                },
-                {
-                  stage: "Stage D",
-                  name: "Deterministic Initial Investigator",
-                  desc: "Evaluated TypeScript date calendar engine: Jan 10, 2025 + 12 months = Jan 10, 2026. Claim date was Dec 20, 2025. Result: TRUE (Within warranty).",
-                  badge: "Completed",
-                  source: "TypeScript Deterministic Calendar Engine",
-                },
-                {
-                  stage: "Stage E",
-                  name: "Independent Red-Team Auditor",
-                  desc: "Challenged finding for ambiguous duration wording and checked service report for moisture indicator strip proof. Confirmed manufacturer failed to attach test results.",
-                  badge: "Adversarial Challenge Passed",
-                  source: "Red-Team Adversarial Engine",
-                },
-                {
-                  stage: "Stage F",
-                  name: "Final Reconciliation",
-                  desc: "Synthesized conclusions: Manufacturer rejection is formally CONTRADICTED. Issued actionable dispute roadmap.",
-                  badge: "Finalized",
-                  source: "Final Reconciler",
-                },
+                { stage: "Stage A", name: "Claim Parser", desc: "Extracted stated assertions from manufacturer notice: 'Warranty expired Jan 9, 2026' and 'Liquid damage suspected'." },
+                { stage: "Stage B", name: "Policy Analyst", desc: "Extracted Section 3.1 (12 months from purchase date) and Section 4.2 (Liquid damage requires diagnostic causation proof)." },
+                { stage: "Stage C", name: "Evidence Analyst", desc: "Extracted purchase date (Jan 10, 2025) and technician notes ('visual inspection external only; moisture strip test not performed')." },
+                { stage: "Stage D", name: "Deterministic Rules Engine", desc: "Evaluated TypeScript date arithmetic: Jan 10, 2025 + 12 months = Jan 10, 2026. Claim filed Dec 20, 2025 was legally active." },
+                { stage: "Stage E", name: "Adversarial Red-Team Auditor", desc: "Challenged finding for ambiguous duration terms and inspected service report for sensor strip tests. Confirmed manufacturer failed to attach diagnostic proof." },
+                { stage: "Stage F", name: "Final Reconciler", desc: "Reconciled findings and challenges. Rejection is formally CONTRADICTED by evidence." },
               ].map((s, idx) => (
-                <div key={idx} className="flex items-start gap-4 pb-4 border-b border-slate-100 last:border-0 text-xs">
-                  <div className="h-8 w-8 rounded-full bg-[#14233B] text-white flex items-center justify-center font-bold text-xs shrink-0">
-                    {idx + 1}
-                  </div>
-                  <div className="flex-1 space-y-1">
-                    <div className="flex items-center justify-between">
-                      <span className="font-bold text-slate-900 text-sm">{s.stage}: {s.name}</span>
-                      <Badge variant="supported">{s.badge}</Badge>
-                    </div>
-                    <p className="text-slate-600 leading-relaxed">{s.desc}</p>
-                    <div className="text-[11px] text-slate-400 font-medium">Source: {s.source}</div>
-                  </div>
+                <div key={idx} className="space-y-1 text-xs">
+                  <div className="font-mono text-[11px] font-bold text-[#AD593E] uppercase">{s.stage}: {s.name}</div>
+                  <p className="text-[#383D38] leading-relaxed">{s.desc}</p>
                 </div>
               ))}
-            </CardContent>
-          </Card>
+            </div>
+          </div>
         )}
 
         {/* EVIDENCE GRAPH TAB */}
         {activeTab === "graph" && (
           <div className="space-y-4">
-            <div className="flex items-center justify-between">
-              <div>
-                <h3 className="text-base font-bold text-[#14233B]">Interactive Evidence Lineage Graph</h3>
-                <p className="text-xs text-slate-500">
-                  Visual representation of claims, policy dependencies, and documentary contradictions.
-                </p>
-              </div>
+            <div className="flex items-center justify-between border-b border-[#DED8CB] pb-2">
+              <span className="text-[10px] font-mono uppercase tracking-widest text-[#5F665E]">
+                EVIDENCE LINEAGE GRAPH // INTERACTIVE 2.5D SPECIMEN
+              </span>
             </div>
             <EvidenceGraphViewer />
           </div>
@@ -397,103 +302,54 @@ export default function CaseWorkspacePage() {
 
         {/* REPORT TAB */}
         {activeTab === "report" && (
-          <div className="max-w-4xl mx-auto bg-white p-8 sm:p-12 rounded-2xl border border-slate-300 shadow-sm space-y-8 text-xs text-slate-800">
-            {/* Report Header */}
-            <div className="border-b-2 border-[#14233B] pb-6 flex items-start justify-between">
+          <div className="max-w-4xl mx-auto bg-[#FAF8F5] p-10 sm:p-14 border border-[#DED8CB] shadow-xs space-y-8 text-xs text-[#1F231F]">
+            {/* Header */}
+            <div className="border-b-2 border-[#1F231F] pb-6 flex items-start justify-between">
               <div>
-                <div className="text-xs font-mono font-bold text-[#3867E8] uppercase tracking-wider">
-                  WarrantyWise Dispute Dossier &bull; Forensic Audit
-                </div>
-                <h1 className="text-2xl font-extrabold text-[#14233B] tracking-tight mt-1">
+                <span className="font-mono text-[10px] uppercase tracking-widest text-[#AD593E] block">
+                  WARRANTYWISE FORENSIC REPORT // OFFICIAL DOSSIER
+                </span>
+                <h2 className="text-2xl font-serif font-bold text-[#1F231F] mt-1">
                   Warranty Claim Investigation Report
-                </h1>
-                <div className="text-xs text-slate-500 mt-1">
-                  Investigation Reference: <strong>WW-EAC-2026-991</strong> &bull; Generated: 2026-11-16
+                </h2>
+                <div className="font-mono text-[11px] text-[#5F665E] mt-1">
+                  Reference: WW-EAC-2026-991 &bull; Date: 2026-11-16
                 </div>
               </div>
               <div className="text-right">
-                <Badge variant="contradicted" className="text-sm px-3 py-1">
-                  CONCLUSION: CONTRADICTED
-                </Badge>
+                <span className="inline-block px-3 py-1 font-mono text-[11px] uppercase tracking-wider text-[#AD593E] bg-[#FBF0EC] border border-[#AD593E]/30 font-bold">
+                  CONTRADICTED
+                </span>
               </div>
             </div>
 
-            {/* Case Overview */}
-            <div className="grid grid-cols-2 gap-4 bg-slate-50 p-4 rounded-xl border border-slate-200">
-              <div>
-                <span className="font-bold text-slate-400 uppercase text-[10px] block">Product & Model</span>
-                <span className="font-bold text-slate-900">{caseData.product_name} ({caseData.model_number})</span>
-              </div>
-              <div>
-                <span className="font-bold text-slate-400 uppercase text-[10px] block">Manufacturer / Retailer</span>
-                <span className="font-bold text-slate-900">{caseData.manufacturer}</span>
-              </div>
-              <div>
-                <span className="font-bold text-slate-400 uppercase text-[10px] block">Purchase Date (Invoice)</span>
-                <span className="font-semibold text-slate-800">{caseData.purchase_date}</span>
-              </div>
-              <div>
-                <span className="font-bold text-slate-400 uppercase text-[10px] block">Rejection Notice Date</span>
-                <span className="font-semibold text-slate-800">{caseData.rejection_date}</span>
-              </div>
-            </div>
-
-            {/* Executive Summary */}
-            <div className="space-y-2">
-              <h2 className="text-sm font-bold text-slate-900 uppercase tracking-wider border-b border-slate-200 pb-1">
+            {/* Content Sections */}
+            <div className="space-y-4 text-xs leading-relaxed text-[#383D38]">
+              <h3 className="font-serif font-bold text-sm text-[#1F231F] border-b border-[#DED8CB] pb-1 uppercase tracking-wider">
                 1. Executive Summary
-              </h2>
-              <p className="leading-relaxed text-slate-700">
-                The manufacturer&apos;s formal warranty rejection has been investigated by comparing the stated denial notice against the original purchase invoice, manufacturer warranty policy, and service center inspection reports. The available evidence <strong>CONTRADICTS</strong> the manufacturer&apos;s stated reason for denial.
+              </h3>
+              <p>
+                The manufacturer&apos;s warranty rejection has been subjected to deterministic calendar analysis and evidentiary verification. The available evidence <strong>CONTRADICTS</strong> the manufacturer&apos;s stated reason for rejection.
               </p>
-            </div>
 
-            {/* Findings */}
-            <div className="space-y-4">
-              <h2 className="text-sm font-bold text-slate-900 uppercase tracking-wider border-b border-slate-200 pb-1">
-                2. Key Factual Findings
-              </h2>
-
-              <div className="p-4 bg-red-50/70 rounded-lg border border-red-200 space-y-1">
-                <div className="font-bold text-red-900">Finding 1: Expiry Date Assertion Contradicted</div>
-                <p className="text-slate-700 leading-relaxed">
-                  The manufacturer asserted that warranty coverage expired on Jan 9, 2026. However, purchase invoice verifies sale on Jan 10, 2025. Policy §3.1 specifies a 12-month period from purchase date. Deterministic calendar calculation confirms valid coverage through Jan 10, 2026. The claim was submitted Dec 20, 2025 and was fully active.
-                </p>
-              </div>
-
-              <div className="p-4 bg-amber-50/70 rounded-lg border border-amber-200 space-y-1">
-                <div className="font-bold text-amber-900">Finding 2: Unproven Liquid Damage Exclusion</div>
-                <p className="text-slate-700 leading-relaxed">
-                  Section 4.2 of the warranty policy excludes liquid damage only where diagnostic causation is verified. The service report explicitly notes external suspicion without conducting the required internal moisture strip test or providing PCB photographic evidence.
-                </p>
-              </div>
-            </div>
-
-            {/* Red Team Audit */}
-            <div className="space-y-2">
-              <h2 className="text-sm font-bold text-slate-900 uppercase tracking-wider border-b border-slate-200 pb-1">
-                3. Independent Red-Team Audit Summary
-              </h2>
-              <p className="text-slate-700 leading-relaxed">
-                An adversarial challenge was conducted to test whether delivery delays or alternate policy clauses could justify denial. Review of Section 3.1 confirmed that warranty commencement is strictly pegged to original retail purchase date, and no contrary documentation exists from the service center.
+              <h3 className="font-serif font-bold text-sm text-[#1F231F] border-b border-[#DED8CB] pb-1 uppercase tracking-wider pt-4">
+                2. Factual Discrepancies
+              </h3>
+              <p>
+                <strong>Finding 1 (Expiry Date Contradiction):</strong> The manufacturer asserted coverage lapsed on Jan 9, 2026. Purchase invoice verifies sale on Jan 10, 2025. Policy §3.1 provides 12 months coverage from retail purchase date (valid through Jan 10, 2026). Claim submitted Dec 20, 2025 was legally active.
               </p>
-            </div>
+              <p>
+                <strong>Finding 2 (Unproven Liquid Damage):</strong> Section 4.2 excludes liquid damage only where diagnostic causation is verified. The field technician report specifically noted &ldquo;visual inspection external only; moisture strip test not performed.&rdquo;
+              </p>
 
-            {/* Next Steps */}
-            <div className="space-y-2">
-              <h2 className="text-sm font-bold text-slate-900 uppercase tracking-wider border-b border-slate-200 pb-1">
-                4. Recommended Action Plan for Consumer
-              </h2>
-              <ol className="list-decimal list-inside space-y-1.5 text-slate-700 leading-relaxed">
-                <li>Submit a formal dispute reply citing Warranty Policy Section 3.1 and Invoice Purchase Date.</li>
-                <li>Demand a copy of the internal inspection photo and moisture sensor strip test results.</li>
-                <li>Request re-evaluation or escalation to the manufacturer executive dispute team.</li>
+              <h3 className="font-serif font-bold text-sm text-[#1F231F] border-b border-[#DED8CB] pb-1 uppercase tracking-wider pt-4">
+                3. Recommended Consumer Action Plan
+              </h3>
+              <ol className="list-decimal list-inside space-y-1 font-mono text-[11px] text-[#5F665E]">
+                <li>File a formal appeal quoting Policy Section 3.1 and Invoice Date.</li>
+                <li>Request photographic evidence of PCB liquid damage and moisture indicator strip test records.</li>
+                <li>Escalate dispute to regional consumer protection authorities if not resolved.</li>
               </ol>
-            </div>
-
-            {/* Disclaimer */}
-            <div className="border-t border-slate-200 pt-4 text-[10px] text-slate-400 leading-relaxed">
-              <strong>DISCLAIMER:</strong> This report represents an objective documentary investigation comparing submitted files against policy rules. It does not constitute formal legal representation or a judicial determination. All findings are derived directly from provided records.
             </div>
           </div>
         )}
@@ -501,4 +357,3 @@ export default function CaseWorkspacePage() {
     </div>
   );
 }
-
