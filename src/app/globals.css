@@ -1,0 +1,71 @@
+@import "tailwindcss";
+
+:root {
+  /* Brand Theme Colors */
+  --navy-900: #0c1626;
+  --navy-800: #14233b;
+  --navy-700: #1b2f4e;
+  --slate-800: #26364b;
+  --slate-700: #33445c;
+  --slate-600: #475569;
+  --slate-500: #64748b;
+  --blue-600: #2557e0;
+  --blue-500: #3867e8;
+  --blue-400: #5982f0;
+
+  /* Surfaces & Backgrounds */
+  --bg-main: #f7f8fa;
+  --surface-card: #ffffff;
+  --surface-subtle: #f0f3f7;
+  --border-subtle: #e2e8f0;
+  --border-strong: #cbd5e1;
+
+  /* Text */
+  --text-primary: #172033;
+  --text-secondary: #4b5565;
+  --text-muted: #667085;
+  --text-subtle: #98a2b3;
+
+  /* Semantic Investigation States */
+  --status-supported-bg: #ecfdf3;
+  --status-supported-text: #027a48;
+  --status-supported-border: #a6f4c5;
+
+  --status-contradicted-bg: #fef3f2;
+  --status-contradicted-text: #b42318;
+  --status-contradicted-border: #fecdca;
+
+  --status-insufficient-bg: #fffaeb;
+  --status-insufficient-text: #b54708;
+  --status-insufficient-border: #fedf89;
+
+  --status-processing-bg: #eff8ff;
+  --status-processing-text: #175cd3;
+  --status-processing-border: #b2ddff;
+
+  --background: #f7f8fa;
+  --foreground: #172033;
+}
+
+body {
+  background-color: var(--bg-main);
+  color: var(--text-primary);
+  font-feature-settings: "cv02", "cv03", "cv04", "cv11";
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Custom scrollbars */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+  border-radius: 9999px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #94a3b8;
+}
