@@ -1,369 +1,290 @@
 "use client";
 
-import React, { useState } from "react";
+import React from "react";
 import Link from "next/link";
 import dynamic from "next/dynamic";
 import {
-  ShieldAlert,
   ArrowRight,
-  FileCheck,
-  Network,
-  Lock,
-  CheckCircle2,
-  ChevronRight,
-  Sparkles,
+  Check,
+  FileText,
+  Shield,
   Layers,
   Search,
-  Cpu,
-  FileText,
-  AlertTriangle,
-  FileSearch,
-  Check,
   Scale,
+  Compass,
+  CornerDownRight,
 } from "lucide-react";
-import { TiltCard } from "@/components/ui/TiltCard";
 
-// Dynamic import with SSR disabled for optimal Three.js rendering
-const InvestigationCore3D = dynamic(
-  () => import("@/components/3d/InvestigationCore3D"),
+// Dynamic import for the focused editorial 3D physical dossier
+const EvidenceArchiveDossier3D = dynamic(
+  () => import("@/components/3d/EvidenceArchiveDossier3D"),
   {
     ssr: false,
     loading: () => (
-      <div className="w-full h-full min-h-[460px] rounded-2xl bg-gradient-to-br from-[#101827] to-[#14233B] flex items-center justify-center border border-slate-700/50">
-        <div className="flex flex-col items-center gap-3">
-          <div className="h-10 w-10 rounded-full border-2 border-[#50D9E8] border-t-transparent animate-spin" />
-          <span className="text-xs font-mono tracking-wider uppercase text-slate-400">
-            Initializing 3D Investigation Core...
-          </span>
-        </div>
+      <div className="w-full h-full min-h-[460px] flex items-center justify-center bg-[#FAF8F5] border border-[#DED8CB]">
+        <span className="text-xs font-mono tracking-widest uppercase text-[#5F665E]">
+          Loading Evidence Dossier...
+        </span>
       </div>
     ),
   }
 );
 
-export default function HomePage() {
+export default function EditorialHomePage() {
   return (
-    <div className="min-h-screen bg-[#070B14] text-slate-100 flex flex-col font-sans selection:bg-[#526DFF] selection:text-white">
-      {/* Dynamic Ambient Background Illumination */}
-      <div className="fixed inset-0 pointer-events-none -z-10 overflow-hidden">
-        <div className="absolute -top-40 left-1/2 -translate-x-1/2 w-[1000px] h-[550px] bg-gradient-to-tr from-[#526DFF]/15 via-[#50D9E8]/10 to-transparent blur-[140px]" />
-        <div className="absolute top-[45%] -left-40 w-[600px] h-[500px] bg-[#526DFF]/10 blur-[130px]" />
-        <div className="absolute bottom-10 -right-40 w-[600px] h-[500px] bg-[#50D9E8]/10 blur-[130px]" />
-      </div>
-
-      {/* Top Glass Navigation */}
-      <header className="sticky top-0 z-50 bg-[#070B14]/80 backdrop-blur-xl border-b border-slate-800/80">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
-          <Link href="/" className="flex items-center gap-2.5 group">
-            <div className="h-9 w-9 rounded-lg bg-gradient-to-br from-[#526DFF] to-[#50D9E8] p-[1px] shadow-lg shadow-blue-500/20">
-              <div className="h-full w-full bg-[#070B14] rounded-[7px] flex items-center justify-center">
-                <ShieldAlert className="h-5 w-5 text-[#50D9E8] group-hover:scale-105 transition-transform" />
-              </div>
-            </div>
-            <div className="flex flex-col">
-              <span className="font-extrabold text-base tracking-tight text-white flex items-center gap-1.5">
-                WarrantyWise
-                <span className="text-[9px] px-1.5 py-0.2 rounded-full bg-[#526DFF]/20 text-[#8DA0FF] border border-[#526DFF]/30 font-mono">
-                  v2.0
-                </span>
-              </span>
-              <span className="text-[10px] tracking-wider uppercase font-semibold text-slate-400">
-                Evidence Intelligence
-              </span>
-            </div>
+    <div className="min-h-screen bg-[#F4F1EA] text-[#1F231F] font-sans selection:bg-[#AD593E] selection:text-white">
+      {/* 1. Header Navigation — Quiet, typographic, editorial */}
+      <header className="border-b border-[#DED8CB] bg-[#F4F1EA] sticky top-0 z-40">
+        <div className="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
+          <Link href="/" className="flex items-baseline gap-3 group">
+            <span className="text-xl font-bold tracking-tight text-[#1F231F] font-serif">
+              WarrantyWise
+            </span>
+            <span className="text-[10px] font-mono tracking-widest uppercase text-[#5F665E] hidden sm:inline">
+              Evidence Archive &bull; Dossier Audit
+            </span>
           </Link>
 
-          <nav className="hidden md:flex items-center gap-8 text-xs font-medium text-slate-300">
-            <a href="#problem" className="hover:text-white transition-colors">Dispute Friction</a>
-            <a href="#how-it-works" className="hover:text-white transition-colors">4-Stage Pipeline</a>
-            <a href="#intelligence" className="hover:text-white transition-colors">Bento Architecture</a>
-            <Link
-              href="/cases/demo-washing-machine"
-              className="text-[#50D9E8] hover:text-[#8DA0FF] transition-colors font-semibold flex items-center gap-1"
-            >
-              Interactive Case Specimen
-              <ChevronRight className="h-3 w-3" />
+          <nav className="hidden md:flex items-center space-x-10 text-xs font-medium tracking-wide text-[#383D38]">
+            <a href="#premise" className="hover:text-[#1F231F] transition-colors">The Premise</a>
+            <a href="#methodology" className="hover:text-[#1F231F] transition-colors">Methodology</a>
+            <a href="#specimen" className="hover:text-[#1F231F] transition-colors">Forensic Case</a>
+            <Link href="/cases/demo-washing-machine" className="text-[#AD593E] font-semibold hover:underline">
+              Live Investigation
             </Link>
           </nav>
 
-          <div className="flex items-center gap-3">
-            <Link href="/login">
-              <button className="px-3.5 py-1.5 rounded-lg text-xs font-semibold text-slate-300 hover:text-white hover:bg-slate-800/80 transition-all cursor-pointer">
-                Sign In
-              </button>
+          <div className="flex items-center gap-4">
+            <Link
+              href="/login"
+              className="text-xs font-medium text-[#383D38] hover:text-[#1F231F] transition-colors"
+            >
+              Sign In
             </Link>
-            <Link href="/cases/new">
-              <button className="px-4 py-2 rounded-lg text-xs font-bold text-white bg-gradient-to-r from-[#526DFF] to-[#3867E8] hover:from-[#435ee8] hover:to-[#2b5ae0] shadow-md shadow-blue-600/30 transition-all flex items-center gap-1.5 cursor-pointer">
-                Start Investigation
-                <ArrowRight className="h-3.5 w-3.5" />
-              </button>
+            <Link
+              href="/cases/new"
+              className="px-4 py-2 bg-[#1F231F] hover:bg-[#383D38] text-[#F4F1EA] text-xs font-medium tracking-wide transition-colors"
+            >
+              Begin Investigation &rarr;
             </Link>
           </div>
         </div>
       </header>
 
-      <main className="flex-1">
-        {/* HERO SECTION — CINEMATIC 3D INVESTIGATION CORE */}
-        <section className="relative pt-12 pb-20 md:pt-20 md:pb-32 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
-            {/* Left Content */}
-            <div className="lg:col-span-6 space-y-6">
-              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#131F32] border border-[#526DFF]/30 text-xs font-semibold text-[#8DA0FF]">
-                <Cpu className="h-3.5 w-3.5 text-[#50D9E8]" />
-                Evidence Intelligence Platform
-              </div>
-
-              <h1 className="text-4xl sm:text-5xl lg:text-6xl font-black text-white tracking-tight leading-[1.08]">
-                Don&apos;t just accept a warranty rejection.{" "}
-                <span className="bg-gradient-to-r from-[#50D9E8] via-[#8DA0FF] to-[#526DFF] bg-clip-text text-transparent">
-                  Investigate it in 3D.
-                </span>
-              </h1>
-
-              <p className="text-base sm:text-lg text-slate-300 max-w-xl leading-relaxed">
-                Turn invoices, warranty policies, and service notes into a transparent, evidence-backed forensic dispute dossier. Verified by deterministic rules and adversarial red-team AI.
-              </p>
-
-              <div className="flex flex-wrap items-center gap-4 pt-2">
-                <Link href="/cases/new">
-                  <button className="px-6 py-3 rounded-xl text-sm font-bold text-white bg-gradient-to-r from-[#526DFF] to-[#3867E8] hover:opacity-95 shadow-lg shadow-blue-500/25 transition-all flex items-center gap-2 cursor-pointer">
-                    Start an Investigation
-                    <ArrowRight className="h-4 w-4" />
-                  </button>
-                </Link>
-                <Link href="/cases/demo-washing-machine">
-                  <button className="px-5 py-3 rounded-xl text-sm font-semibold text-slate-200 bg-[#131F32] hover:bg-[#1B2F4E] border border-slate-700/80 transition-all flex items-center gap-2 cursor-pointer">
-                    Explore Live Case
-                  </button>
-                </Link>
-              </div>
-
-              <div className="pt-6 border-t border-slate-800/80 grid grid-cols-3 gap-6 text-slate-400">
-                <div>
-                  <div className="text-xl sm:text-2xl font-black text-white">100%</div>
-                  <div className="text-[11px] text-slate-400 font-medium">Traceable Citations</div>
-                </div>
-                <div>
-                  <div className="text-xl sm:text-2xl font-black text-[#50D9E8]">3-Valued</div>
-                  <div className="text-[11px] text-slate-400 font-medium">Deterministic Rule Logic</div>
-                </div>
-                <div>
-                  <div className="text-xl sm:text-2xl font-black text-[#8DA0FF]">Red-Team</div>
-                  <div className="text-[11px] text-slate-400 font-medium">Adversarial Verification</div>
-                </div>
-              </div>
+      {/* 2. Hero Section — Asymmetric Editorial Composition + Physical 3D Archive */}
+      <section className="max-w-7xl mx-auto px-6 pt-16 pb-24 md:pt-24 md:pb-32 border-b border-[#DED8CB]">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-start">
+          {/* Typographic Column */}
+          <div className="lg:col-span-6 space-y-8">
+            <div className="inline-flex items-center gap-2 border-b border-[#1F231F] pb-1 text-[11px] font-mono uppercase tracking-widest text-[#5F665E]">
+              <span>VOL. 01 &bull; WARRANTY DISPUTE INVESTIGATION</span>
             </div>
 
-            {/* Right: Interactive 3D Investigation Core Canvas */}
-            <div className="lg:col-span-6 relative">
-              <TiltCard className="p-2 border-slate-700/80 shadow-2xl">
-                {/* 3D Canvas */}
-                <InvestigationCore3D />
+            <h1 className="text-4xl sm:text-5xl lg:text-6xl font-normal tracking-tight text-[#1F231F] font-serif leading-[1.08]">
+              A rejection is merely a claim.{" "}
+              <em className="italic font-serif text-[#AD593E]">Evidence tells the rest.</em>
+            </h1>
 
-                {/* Floating HUD Badges */}
-                <div className="absolute top-4 left-4 bg-[#070B14]/85 border border-slate-700/60 backdrop-blur-md px-3 py-1.5 rounded-lg text-[11px] font-mono text-slate-300 flex items-center gap-2 shadow-sm">
-                  <span className="h-2 w-2 rounded-full bg-emerald-400 animate-pulse" />
-                  Investigation Core: Real-time Lineage Active
-                </div>
-
-                <div className="absolute bottom-4 right-4 bg-[#070B14]/85 border border-slate-700/60 backdrop-blur-md px-3 py-1.5 rounded-lg text-[10px] text-slate-400">
-                  Interactive mouse parallax & rotation
-                </div>
-              </TiltCard>
-            </div>
-          </div>
-        </section>
-
-        {/* SECTION B: BENTO GRID ARCHITECTURE (APPLE / STRIPE STYLE) */}
-        <section id="intelligence" className="py-24 bg-[#0B1220]/70 border-y border-slate-800/80">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
-            <div className="max-w-3xl space-y-3">
-              <div className="text-xs font-mono font-bold tracking-wider uppercase text-[#50D9E8]">
-                Forensic Architecture
-              </div>
-              <h2 className="text-3xl sm:text-4xl font-extrabold text-white tracking-tight">
-                Designed for high scrutiny and documentary proof
-              </h2>
-              <p className="text-slate-400 text-sm sm:text-base leading-relaxed">
-                Every component is built around transparency. No black-box guesses; every claim links to page excerpts.
-              </p>
-            </div>
-
-            {/* 3D Bento Grid with Tilt & Spotlight Glow */}
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-              {/* Card 1: Large Span 2 */}
-              <TiltCard className="md:col-span-2 p-8" glowColor="rgba(80, 217, 232, 0.15)">
-                <div className="flex items-center justify-between mb-4">
-                  <span className="text-[11px] font-mono font-bold text-[#50D9E8] uppercase tracking-wider">
-                    // DETERMINISTIC_ENGINE
-                  </span>
-                  <span className="h-2 w-2 rounded-full bg-[#50D9E8]" />
-                </div>
-                <h3 className="text-2xl font-bold text-white mb-2">
-                  Three-Valued Logic Calendar Arithmetic
-                </h3>
-                <p className="text-sm text-slate-400 max-w-xl leading-relaxed mb-6">
-                  LLMs hallucinate math. WarrantyWise uses strict TypeScript date evaluation for leap years, month-end edge cases, and boundary inclusive dates. If proof is missing, it yields <code className="text-[#50D9E8]">UNKNOWN</code> rather than guessing.
-                </p>
-
-                <div className="grid grid-cols-3 gap-4 pt-4 border-t border-slate-800 text-xs">
-                  <div className="p-3 rounded-xl bg-[#070B14]/80 border border-slate-800">
-                    <span className="text-slate-500 block text-[10px] font-bold">CALENDAR LOGIC</span>
-                    <span className="text-white font-bold">Leap-Year Safe</span>
-                  </div>
-                  <div className="p-3 rounded-xl bg-[#070B14]/80 border border-slate-800">
-                    <span className="text-slate-500 block text-[10px] font-bold">OUTPUT STATE</span>
-                    <span className="text-emerald-400 font-bold">TRUE | FALSE | UNKNOWN</span>
-                  </div>
-                  <div className="p-3 rounded-xl bg-[#070B14]/80 border border-slate-800">
-                    <span className="text-slate-500 block text-[10px] font-bold">BURDEN OF PROOF</span>
-                    <span className="text-amber-400 font-bold">Exclusion Tested</span>
-                  </div>
-                </div>
-              </TiltCard>
-
-              {/* Card 2: Red Team Auditor */}
-              <TiltCard className="p-8" glowColor="rgba(217, 91, 101, 0.15)">
-                <div className="flex items-center justify-between mb-4">
-                  <span className="text-[11px] font-mono font-bold text-red-400 uppercase tracking-wider">
-                    // RED_TEAM_AUDITOR
-                  </span>
-                  <span className="h-2 w-2 rounded-full bg-red-400" />
-                </div>
-                <h3 className="text-xl font-bold text-white mb-2">
-                  Adversarial Challenge
-                </h3>
-                <p className="text-xs text-slate-400 leading-relaxed">
-                  Stage E red-team auditor intentionally challenges findings for ambiguous wording, delivery delay exceptions, and unsubstantiated technician claims before finalizing the dossier.
-                </p>
-                <div className="mt-6 p-3 rounded-xl bg-red-500/10 border border-red-500/20 text-red-300 text-xs font-mono">
-                  &ldquo;Liquid damage suspected&rdquo; OVERTURNED without sensor strip proof.
-                </div>
-              </TiltCard>
-
-              {/* Card 3: Interactive Evidence Lineage Graph */}
-              <TiltCard className="p-8" glowColor="rgba(82, 109, 255, 0.15)">
-                <div className="flex items-center justify-between mb-4">
-                  <span className="text-[11px] font-mono font-bold text-[#8DA0FF] uppercase tracking-wider">
-                    // REACT_FLOW_GRAPH
-                  </span>
-                  <Network className="h-4 w-4 text-[#8DA0FF]" />
-                </div>
-                <h3 className="text-xl font-bold text-white mb-2">
-                  Evidence Graph
-                </h3>
-                <p className="text-xs text-slate-400 leading-relaxed">
-                  Explore full documentary lineage in an interactive 2.5D visual canvas. Trace claims to invoices and policy clauses in real time.
-                </p>
-                <Link href="/cases/demo-washing-machine" className="inline-flex items-center gap-1.5 text-xs text-[#50D9E8] font-bold mt-4 hover:underline">
-                  Launch interactive graph →
-                </Link>
-              </TiltCard>
-
-              {/* Card 4: Span 2 Security & Vault */}
-              <TiltCard className="md:col-span-2 p-8" glowColor="rgba(21, 155, 114, 0.15)">
-                <div className="flex items-center justify-between mb-4">
-                  <span className="text-[11px] font-mono font-bold text-emerald-400 uppercase tracking-wider">
-                    // ZERO_LEAK_VAULT
-                  </span>
-                  <Lock className="h-4 w-4 text-emerald-400" />
-                </div>
-                <h3 className="text-2xl font-bold text-white mb-2">
-                  PostgreSQL Row-Level Security & Private Encrypted Buckets
-                </h3>
-                <p className="text-sm text-slate-400 max-w-xl leading-relaxed">
-                  Uploaded invoices, denial emails, and photographic evidence are quarantined behind strict tenant isolation policies. No public storage buckets and time-limited signed URLs prevent cross-tenant access.
-                </p>
-              </TiltCard>
-            </div>
-          </div>
-        </section>
-
-        {/* SECTION C: 4-STAGE PIPELINE */}
-        <section id="how-it-works" className="py-24 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center max-w-3xl mx-auto mb-16 space-y-3">
-            <div className="text-xs font-mono font-bold tracking-wider uppercase text-[#526DFF]">
-              Deterministic Methodology
-            </div>
-            <h2 className="text-3xl sm:text-4xl font-extrabold text-white tracking-tight">
-              A 4-stage bounded investigation pipeline
-            </h2>
-            <p className="text-slate-400 text-sm sm:text-base">
-              We compile policy conditions into code rules and subject every conclusion to adversarial red-team verification.
+            <p className="text-base sm:text-lg text-[#383D38] max-w-lg leading-relaxed font-light">
+              We investigate warranty denials by comparing manufacturer statements directly against your purchase invoice, policy clauses, and technician notes — anchoring every finding to documentary source citations.
             </p>
-          </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
-            {[
-              {
-                num: "01",
-                title: "Document Ingestion",
-                desc: "Invoices, warranty policies, and denial letters are securely stored with SHA-256 provenance checksums.",
-                tag: "Encrypted Vault",
-              },
-              {
-                num: "02",
-                title: "Structured Extraction",
-                desc: "Dates, serial numbers, exclusion clauses, and technician notes are anchored to exact page citations.",
-                tag: "Page-Level Provenance",
-              },
-              {
-                num: "03",
-                title: "Deterministic Engine",
-                desc: "Strict TypeScript rules evaluate leap years, month boundaries, and exclusion burden of proof.",
-                tag: "3-Valued Logic",
-              },
-              {
-                num: "04",
-                title: "Adversarial Audit",
-                desc: "Our Red-Team AI challenges unproven claims before generating an interactive graph and dispute report.",
-                tag: "Red-Team Verified",
-              },
-            ].map((item, idx) => (
-              <TiltCard key={idx} className="p-6">
-                <div className="text-xs font-mono font-bold text-[#50D9E8] mb-2">{item.num}</div>
-                <h3 className="text-base font-bold text-white mb-2">{item.title}</h3>
-                <p className="text-xs text-slate-400 leading-relaxed mb-4">{item.desc}</p>
-                <span className="inline-block text-[10px] font-mono px-2 py-0.5 rounded bg-[#070B14] text-slate-300 border border-slate-700/60">
-                  {item.tag}
-                </span>
-              </TiltCard>
-            ))}
-          </div>
-        </section>
-
-        {/* SECTION E: CALL TO ACTION */}
-        <section className="py-24 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center relative">
-          <div className="max-w-3xl mx-auto space-y-6">
-            <h2 className="text-3xl sm:text-5xl font-extrabold text-white tracking-tight">
-              Ready to investigate your warranty dispute?
-            </h2>
-            <p className="text-slate-400 text-sm sm:text-base leading-relaxed">
-              Upload your documents and receive a verifiable, evidence-linked report in minutes.
-            </p>
-            <div className="pt-2 flex justify-center gap-4">
-              <Link href="/cases/new">
-                <button className="px-6 py-3 rounded-xl text-sm font-bold text-white bg-gradient-to-r from-[#526DFF] to-[#3867E8] hover:opacity-95 shadow-xl shadow-blue-600/30 transition-all flex items-center gap-2 cursor-pointer">
-                  Start Your Investigation
-                  <ArrowRight className="h-4 w-4" />
-                </button>
+            <div className="pt-2 flex flex-wrap items-center gap-4">
+              <Link
+                href="/cases/new"
+                className="px-6 py-3.5 bg-[#1F231F] hover:bg-[#383D38] text-[#FAF8F5] text-xs uppercase tracking-wider font-medium transition-colors"
+              >
+                Submit Case Dossier
+              </Link>
+              <Link
+                href="/cases/demo-washing-machine"
+                className="px-6 py-3.5 border border-[#1F231F] text-[#1F231F] hover:bg-[#EAE5D9] text-xs uppercase tracking-wider font-medium transition-colors"
+              >
+                Inspect Sample Audit
               </Link>
             </div>
-          </div>
-        </section>
-      </main>
 
-      {/* Footer */}
-      <footer className="bg-[#070B14] border-t border-slate-800/80 py-10">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row items-center justify-between gap-4 text-xs text-slate-500">
-          <div className="flex items-center gap-2 font-bold text-slate-300">
-            <ShieldAlert className="h-4 w-4 text-[#50D9E8]" />
-            WarrantyWise &copy; 2026 — Evidence Intelligence Platform
+            <div className="pt-8 grid grid-cols-3 gap-6 border-t border-[#DED8CB] text-xs text-[#5F665E]">
+              <div>
+                <div className="font-serif text-2xl text-[#1F231F]">100%</div>
+                <div className="mt-0.5 tracking-tight">Traceable Citations</div>
+              </div>
+              <div>
+                <div className="font-serif text-2xl text-[#1F231F]">3-Valued</div>
+                <div className="mt-0.5 tracking-tight">Deterministic Rules</div>
+              </div>
+              <div>
+                <div className="font-serif text-2xl text-[#1F231F]">Red-Team</div>
+                <div className="mt-0.5 tracking-tight">Adversarial Review</div>
+              </div>
+            </div>
           </div>
-          <div className="flex items-center gap-6">
-            <Link href="/login" className="hover:text-white transition-colors">Sign In</Link>
-            <Link href="/cases/demo-washing-machine" className="hover:text-white transition-colors">Live Case</Link>
-            <a href="#how-it-works" className="hover:text-white transition-colors">Methodology</a>
+
+          {/* 3D Physical Archive Dossier Column */}
+          <div className="lg:col-span-6 relative">
+            <div className="bg-[#FAF8F5] border border-[#DED8CB] p-4 relative shadow-sm">
+              <div className="flex items-center justify-between border-b border-[#DED8CB] pb-3 mb-2 text-[10px] font-mono uppercase tracking-widest text-[#5F665E]">
+                <span>ARCHIVAL DOSSIER &bull; SPECIMEN NO. 99812</span>
+                <span className="text-[#AD593E] font-bold">PHYSICAL ARTIFACT VIEW</span>
+              </div>
+
+              {/* Realistic 3D Canvas */}
+              <div className="h-[460px] w-full">
+                <EvidenceArchiveDossier3D />
+              </div>
+
+              <div className="mt-2 pt-3 border-t border-[#DED8CB] flex items-center justify-between text-[11px] text-[#5F665E]">
+                <span>Tactile interaction: hover and pan to tilt dossier</span>
+                <span className="font-mono">FOLIO_04 // RESOLVED</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* 3. The Premise — Editorial Typography & Natural Layout */}
+      <section id="premise" className="py-24 border-b border-[#DED8CB] bg-[#FAF8F5]">
+        <div className="max-w-7xl mx-auto px-6">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-12">
+            <div className="lg:col-span-4">
+              <span className="text-xs font-mono uppercase tracking-widest text-[#AD593E] block mb-2">
+                01 / THE IMBALANCE
+              </span>
+              <h2 className="text-2xl sm:text-3xl font-serif text-[#1F231F] leading-snug">
+                Warranty decisions rely on informational friction.
+              </h2>
+            </div>
+
+            <div className="lg:col-span-8 space-y-6 text-sm text-[#383D38] leading-relaxed">
+              <p>
+                When a manufacturer rejects a claim, they deliver a conclusion without showing their work. They claim the warranty expired, that liquid damage occurred, or that a cosmetic scratch voided coverage.
+              </p>
+              <p>
+                For an individual consumer, refuting this requires cross-referencing invoice purchase dates with policy boundary definitions, reading technician inspection disclaimers, and proving that an exclusion condition was never legally satisfied.
+              </p>
+              <div className="p-6 bg-[#F4F1EA] border-l-2 border-[#AD593E] font-serif italic text-base text-[#1F231F]">
+                &ldquo;WarrantyWise exists to eliminate conjecture. If a manufacturer asserts that coverage lapsed, we calculate the calendar boundary. If they allege liquid contamination, we inspect whether diagnostic causation was actually established.&rdquo;
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* 4. Methodology — 4-Stage Sequential Flow */}
+      <section id="methodology" className="py-24 border-b border-[#DED8CB]">
+        <div className="max-w-7xl mx-auto px-6 space-y-16">
+          <div className="max-w-2xl space-y-3">
+            <span className="text-xs font-mono uppercase tracking-widest text-[#55604A]">
+              02 / THE METHODOLOGY
+            </span>
+            <h2 className="text-3xl sm:text-4xl font-serif text-[#1F231F]">
+              Structured investigation, bounded verification.
+            </h2>
+            <p className="text-sm text-[#5F665E] leading-relaxed">
+              We never ask an LLM to guess an expiry date or provide subjective legal counsel.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
+            {[
+              {
+                step: "01",
+                title: "Document Ingestion",
+                desc: "Original PDFs, receipts, and inspection tickets are ingested into a private vault with SHA-256 provenance checksums.",
+              },
+              {
+                step: "02",
+                title: "Fact & Clause Extraction",
+                desc: "Purchase dates, serial numbers, and policy exclusions are extracted with page-number citations and confidence labels.",
+              },
+              {
+                step: "03",
+                title: "Deterministic Engine",
+                desc: "TypeScript calendar logic handles leap years, month boundaries, and exclusion burden of proof under three-valued logic.",
+              },
+              {
+                step: "04",
+                title: "Adversarial Red-Team",
+                desc: "An independent auditor stage challenges unproven assertions and checks contrary technician notes before release.",
+              },
+            ].map((item, idx) => (
+              <div key={idx} className="border-t border-[#1F231F] pt-6 space-y-2">
+                <span className="font-mono text-xs text-[#AD593E]">{item.step}</span>
+                <h3 className="text-base font-serif font-medium text-[#1F231F]">{item.title}</h3>
+                <p className="text-xs text-[#5F665E] leading-relaxed">{item.desc}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* 5. Live Specimen Case — Editorial Dossier Breakdown */}
+      <section id="specimen" className="py-24 border-b border-[#DED8CB] bg-[#FAF8F5]">
+        <div className="max-w-7xl mx-auto px-6">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+            <div className="lg:col-span-5 space-y-6">
+              <span className="text-xs font-mono uppercase tracking-widest text-[#AD593E]">
+                03 / AUDIT SPECIMEN
+              </span>
+              <h2 className="text-3xl font-serif text-[#1F231F] leading-tight">
+                Case Study: The Inverter Motor Denial
+              </h2>
+              <p className="text-xs text-[#383D38] leading-relaxed">
+                Manufacturer denied claim alleging standard warranty expired on Jan 9, 2026 and cited suspected liquid damage.
+              </p>
+              <div className="space-y-3 text-xs text-[#5F665E]">
+                <div className="flex items-start gap-2">
+                  <Check className="h-4 w-4 text-[#55604A] shrink-0 mt-0.5" />
+                  <span><strong>Fact:</strong> Purchase invoice dates sale to Jan 10, 2025. Claim was filed Dec 20, 2025.</span>
+                </div>
+                <div className="flex items-start gap-2">
+                  <Check className="h-4 w-4 text-[#55604A] shrink-0 mt-0.5" />
+                  <span><strong>Policy §3.1:</strong> 12 months coverage commences upon date of retail purchase.</span>
+                </div>
+                <div className="flex items-start gap-2">
+                  <Check className="h-4 w-4 text-[#55604A] shrink-0 mt-0.5" />
+                  <span><strong>Finding:</strong> Rejection was issued while product was under active coverage. Exclusion was unproven.</span>
+                </div>
+              </div>
+
+              <div className="pt-2">
+                <Link
+                  href="/cases/demo-washing-machine"
+                  className="inline-flex items-center gap-2 text-xs font-mono uppercase tracking-wider text-[#1F231F] border-b border-[#1F231F] pb-1 hover:text-[#AD593E] hover:border-[#AD593E] transition-colors"
+                >
+                  Explore Complete Case Dossier &rarr;
+                </Link>
+              </div>
+            </div>
+
+            <div className="lg:col-span-7 bg-[#F4F1EA] p-8 border border-[#DED8CB] shadow-xs space-y-4 text-xs">
+              <div className="flex items-center justify-between border-b border-[#DED8CB] pb-3 font-mono text-[11px] text-[#5F665E]">
+                <span>AUDIT_RECORD // EAC-CLAIM-882194</span>
+                <span className="text-[#AD593E] font-bold">CONCLUSION: CONTRADICTED</span>
+              </div>
+              <div className="space-y-2 font-serif text-sm text-[#1F231F]">
+                <div>&ldquo;The claim rejection is mathematically contradicted by the purchase invoice date and policy duration terms.&rdquo;</div>
+              </div>
+              <div className="p-3 bg-[#FAF8F5] border border-[#DED8CB] text-[11px] text-[#5F665E] space-y-1">
+                <div><strong>Primary Citation:</strong> Invoice-Purchase-20250110.pdf &bull; Pg 1</div>
+                <div><strong>Clause Citation:</strong> Policy-Section-3.1 &bull; Pg 2</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* 6. Footer — Clean Archival Colophon */}
+      <footer className="py-16 bg-[#F4F1EA] text-[#5F665E] text-xs">
+        <div className="max-w-7xl mx-auto px-6 flex flex-col sm:flex-row items-center justify-between gap-6">
+          <div className="space-y-1">
+            <div className="font-serif font-bold text-[#1F231F] text-sm">WarrantyWise</div>
+            <div>Evidence Intelligence &bull; Archival Investigation Software</div>
+          </div>
+          <div className="flex items-center space-x-8 text-xs font-mono">
+            <Link href="/login" className="hover:text-[#1F231F]">Sign In</Link>
+            <Link href="/cases/demo-washing-machine" className="hover:text-[#1F231F]">Specimen</Link>
+            <Link href="/cases/new" className="hover:text-[#1F231F]">New Case</Link>
           </div>
         </div>
       </footer>
