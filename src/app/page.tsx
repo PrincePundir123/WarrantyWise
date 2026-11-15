@@ -17,8 +17,11 @@ import {
   Cpu,
   FileText,
   AlertTriangle,
+  FileSearch,
+  Check,
+  Scale,
 } from "lucide-react";
-import { Button } from "@/components/ui/Button";
+import { TiltCard } from "@/components/ui/TiltCard";
 
 // Dynamic import with SSR disabled for optimal Three.js rendering
 const InvestigationCore3D = dynamic(
@@ -26,7 +29,7 @@ const InvestigationCore3D = dynamic(
   {
     ssr: false,
     loading: () => (
-      <div className="w-full h-full min-h-[440px] rounded-2xl bg-gradient-to-br from-[#101827] to-[#14233B] flex items-center justify-center border border-slate-700/50">
+      <div className="w-full h-full min-h-[460px] rounded-2xl bg-gradient-to-br from-[#101827] to-[#14233B] flex items-center justify-center border border-slate-700/50">
         <div className="flex flex-col items-center gap-3">
           <div className="h-10 w-10 rounded-full border-2 border-[#50D9E8] border-t-transparent animate-spin" />
           <span className="text-xs font-mono tracking-wider uppercase text-slate-400">
@@ -39,16 +42,21 @@ const InvestigationCore3D = dynamic(
 );
 
 export default function HomePage() {
-  const [activeStep, setActiveStep] = useState(0);
-
   return (
-    <div className="min-h-screen bg-[#0B1220] text-slate-100 flex flex-col font-sans selection:bg-[#526DFF] selection:text-white">
+    <div className="min-h-screen bg-[#070B14] text-slate-100 flex flex-col font-sans selection:bg-[#526DFF] selection:text-white">
+      {/* Dynamic Ambient Background Illumination */}
+      <div className="fixed inset-0 pointer-events-none -z-10 overflow-hidden">
+        <div className="absolute -top-40 left-1/2 -translate-x-1/2 w-[1000px] h-[550px] bg-gradient-to-tr from-[#526DFF]/15 via-[#50D9E8]/10 to-transparent blur-[140px]" />
+        <div className="absolute top-[45%] -left-40 w-[600px] h-[500px] bg-[#526DFF]/10 blur-[130px]" />
+        <div className="absolute bottom-10 -right-40 w-[600px] h-[500px] bg-[#50D9E8]/10 blur-[130px]" />
+      </div>
+
       {/* Top Glass Navigation */}
-      <header className="sticky top-0 z-50 bg-[#0B1220]/80 backdrop-blur-xl border-b border-slate-800/80">
+      <header className="sticky top-0 z-50 bg-[#070B14]/80 backdrop-blur-xl border-b border-slate-800/80">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
           <Link href="/" className="flex items-center gap-2.5 group">
             <div className="h-9 w-9 rounded-lg bg-gradient-to-br from-[#526DFF] to-[#50D9E8] p-[1px] shadow-lg shadow-blue-500/20">
-              <div className="h-full w-full bg-[#0B1220] rounded-[7px] flex items-center justify-center">
+              <div className="h-full w-full bg-[#070B14] rounded-[7px] flex items-center justify-center">
                 <ShieldAlert className="h-5 w-5 text-[#50D9E8] group-hover:scale-105 transition-transform" />
               </div>
             </div>
@@ -68,7 +76,7 @@ export default function HomePage() {
           <nav className="hidden md:flex items-center gap-8 text-xs font-medium text-slate-300">
             <a href="#problem" className="hover:text-white transition-colors">Dispute Friction</a>
             <a href="#how-it-works" className="hover:text-white transition-colors">4-Stage Pipeline</a>
-            <a href="#intelligence" className="hover:text-white transition-colors">Deterministic Engine</a>
+            <a href="#intelligence" className="hover:text-white transition-colors">Bento Architecture</a>
             <Link
               href="/cases/demo-washing-machine"
               className="text-[#50D9E8] hover:text-[#8DA0FF] transition-colors font-semibold flex items-center gap-1"
@@ -95,11 +103,8 @@ export default function HomePage() {
       </header>
 
       <main className="flex-1">
-        {/* HERO SECTION — 3D INVESTIGATION CORE */}
-        <section className="relative pt-12 pb-24 md:pt-20 md:pb-32 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto overflow-hidden">
-          {/* Subtle Ambient Radial Backdrops */}
-          <div className="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[500px] bg-gradient-to-tr from-[#526DFF]/15 to-[#50D9E8]/10 blur-[130px] -z-10 pointer-events-none" />
-
+        {/* HERO SECTION — CINEMATIC 3D INVESTIGATION CORE */}
+        <section className="relative pt-12 pb-20 md:pt-20 md:pb-32 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
             {/* Left Content */}
             <div className="lg:col-span-6 space-y-6">
@@ -111,12 +116,12 @@ export default function HomePage() {
               <h1 className="text-4xl sm:text-5xl lg:text-6xl font-black text-white tracking-tight leading-[1.08]">
                 Don&apos;t just accept a warranty rejection.{" "}
                 <span className="bg-gradient-to-r from-[#50D9E8] via-[#8DA0FF] to-[#526DFF] bg-clip-text text-transparent">
-                  Investigate it.
+                  Investigate it in 3D.
                 </span>
               </h1>
 
               <p className="text-base sm:text-lg text-slate-300 max-w-xl leading-relaxed">
-                Turn invoices, warranty policies, and service notes into a transparent, evidence-backed forensic dispute dossier. Verified by deterministic logic and adversarial red-team AI.
+                Turn invoices, warranty policies, and service notes into a transparent, evidence-backed forensic dispute dossier. Verified by deterministic rules and adversarial red-team AI.
               </p>
 
               <div className="flex flex-wrap items-center gap-4 pt-2">
@@ -151,69 +156,125 @@ export default function HomePage() {
 
             {/* Right: Interactive 3D Investigation Core Canvas */}
             <div className="lg:col-span-6 relative">
-              <div className="relative rounded-2xl bg-gradient-to-b from-[#131F32]/90 to-[#0B1220] border border-slate-700/60 shadow-2xl p-2 overflow-hidden backdrop-blur-xl">
+              <TiltCard className="p-2 border-slate-700/80 shadow-2xl">
                 {/* 3D Canvas */}
                 <InvestigationCore3D />
 
                 {/* Floating HUD Badges */}
-                <div className="absolute top-4 left-4 bg-[#0B1220]/80 border border-slate-700/60 backdrop-blur-md px-3 py-1.5 rounded-lg text-[11px] font-mono text-slate-300 flex items-center gap-2 shadow-sm">
+                <div className="absolute top-4 left-4 bg-[#070B14]/85 border border-slate-700/60 backdrop-blur-md px-3 py-1.5 rounded-lg text-[11px] font-mono text-slate-300 flex items-center gap-2 shadow-sm">
                   <span className="h-2 w-2 rounded-full bg-emerald-400 animate-pulse" />
-                  Core Status: Lineage Active
+                  Investigation Core: Real-time Lineage Active
                 </div>
 
-                <div className="absolute bottom-4 right-4 bg-[#0B1220]/80 border border-slate-700/60 backdrop-blur-md px-3 py-1.5 rounded-lg text-[10px] text-slate-400">
-                  Rotate & pan to inspect document nodes
+                <div className="absolute bottom-4 right-4 bg-[#070B14]/85 border border-slate-700/60 backdrop-blur-md px-3 py-1.5 rounded-lg text-[10px] text-slate-400">
+                  Interactive mouse parallax & rotation
                 </div>
-              </div>
+              </TiltCard>
             </div>
           </div>
         </section>
 
-        {/* SECTION B: THE DISPUTE PROBLEM */}
-        <section id="problem" className="py-20 bg-[#101827] border-y border-slate-800/80">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="max-w-3xl mx-auto text-center space-y-4 mb-16">
+        {/* SECTION B: BENTO GRID ARCHITECTURE (APPLE / STRIPE STYLE) */}
+        <section id="intelligence" className="py-24 bg-[#0B1220]/70 border-y border-slate-800/80">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
+            <div className="max-w-3xl space-y-3">
               <div className="text-xs font-mono font-bold tracking-wider uppercase text-[#50D9E8]">
-                The Consumer Friction
+                Forensic Architecture
               </div>
               <h2 className="text-3xl sm:text-4xl font-extrabold text-white tracking-tight">
-                Why warranty rejections are difficult to challenge
+                Designed for high scrutiny and documentary proof
               </h2>
               <p className="text-slate-400 text-sm sm:text-base leading-relaxed">
-                Manufacturers rely on information asymmetry. Critical proof is scattered across invoices, 30-page warranty fine-print, and brief technician tickets.
+                Every component is built around transparency. No black-box guesses; every claim links to page excerpts.
               </p>
             </div>
 
+            {/* 3D Bento Grid with Tilt & Spotlight Glow */}
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-              <div className="p-6 rounded-2xl bg-[#0B1220] border border-slate-800 hover:border-slate-700 transition-all space-y-3">
-                <div className="h-10 w-10 rounded-xl bg-red-500/10 border border-red-500/20 text-red-400 flex items-center justify-center font-bold">
-                  !
+              {/* Card 1: Large Span 2 */}
+              <TiltCard className="md:col-span-2 p-8" glowColor="rgba(80, 217, 232, 0.15)">
+                <div className="flex items-center justify-between mb-4">
+                  <span className="text-[11px] font-mono font-bold text-[#50D9E8] uppercase tracking-wider">
+                    // DETERMINISTIC_ENGINE
+                  </span>
+                  <span className="h-2 w-2 rounded-full bg-[#50D9E8]" />
                 </div>
-                <h3 className="text-base font-bold text-white">Asserted Without Proof</h3>
-                <p className="text-xs text-slate-400 leading-relaxed">
-                  Technicians frequently cite &ldquo;customer liquid damage&rdquo; or &ldquo;cosmetic shock&rdquo; without conducting diagnostic sensor tests or attaching internal photos.
+                <h3 className="text-2xl font-bold text-white mb-2">
+                  Three-Valued Logic Calendar Arithmetic
+                </h3>
+                <p className="text-sm text-slate-400 max-w-xl leading-relaxed mb-6">
+                  LLMs hallucinate math. WarrantyWise uses strict TypeScript date evaluation for leap years, month-end edge cases, and boundary inclusive dates. If proof is missing, it yields <code className="text-[#50D9E8]">UNKNOWN</code> rather than guessing.
                 </p>
-              </div>
 
-              <div className="p-6 rounded-2xl bg-[#0B1220] border border-slate-800 hover:border-slate-700 transition-all space-y-3">
-                <div className="h-10 w-10 rounded-xl bg-amber-500/10 border border-amber-500/20 text-amber-400 flex items-center justify-center font-bold">
-                  §
+                <div className="grid grid-cols-3 gap-4 pt-4 border-t border-slate-800 text-xs">
+                  <div className="p-3 rounded-xl bg-[#070B14]/80 border border-slate-800">
+                    <span className="text-slate-500 block text-[10px] font-bold">CALENDAR LOGIC</span>
+                    <span className="text-white font-bold">Leap-Year Safe</span>
+                  </div>
+                  <div className="p-3 rounded-xl bg-[#070B14]/80 border border-slate-800">
+                    <span className="text-slate-500 block text-[10px] font-bold">OUTPUT STATE</span>
+                    <span className="text-emerald-400 font-bold">TRUE | FALSE | UNKNOWN</span>
+                  </div>
+                  <div className="p-3 rounded-xl bg-[#070B14]/80 border border-slate-800">
+                    <span className="text-slate-500 block text-[10px] font-bold">BURDEN OF PROOF</span>
+                    <span className="text-amber-400 font-bold">Exclusion Tested</span>
+                  </div>
                 </div>
-                <h3 className="text-base font-bold text-white">Miscalculated Expiry Dates</h3>
-                <p className="text-xs text-slate-400 leading-relaxed">
-                  Support agents often count warranty from ship date rather than delivery or retail purchase date, prematurely denying legally active claims.
-                </p>
-              </div>
+              </TiltCard>
 
-              <div className="p-6 rounded-2xl bg-[#0B1220] border border-slate-800 hover:border-slate-700 transition-all space-y-3">
-                <div className="h-10 w-10 rounded-xl bg-blue-500/10 border border-blue-500/20 text-[#50D9E8] flex items-center justify-center font-bold">
-                  ?
+              {/* Card 2: Red Team Auditor */}
+              <TiltCard className="p-8" glowColor="rgba(217, 91, 101, 0.15)">
+                <div className="flex items-center justify-between mb-4">
+                  <span className="text-[11px] font-mono font-bold text-red-400 uppercase tracking-wider">
+                    // RED_TEAM_AUDITOR
+                  </span>
+                  <span className="h-2 w-2 rounded-full bg-red-400" />
                 </div>
-                <h3 className="text-base font-bold text-white">Scattered Provenance</h3>
+                <h3 className="text-xl font-bold text-white mb-2">
+                  Adversarial Challenge
+                </h3>
                 <p className="text-xs text-slate-400 leading-relaxed">
-                  Consumers rarely have the forensic tools to correlate 4 different PDFs, calculate inclusive boundary days, and draft an airtight dispute letter.
+                  Stage E red-team auditor intentionally challenges findings for ambiguous wording, delivery delay exceptions, and unsubstantiated technician claims before finalizing the dossier.
                 </p>
-              </div>
+                <div className="mt-6 p-3 rounded-xl bg-red-500/10 border border-red-500/20 text-red-300 text-xs font-mono">
+                  &ldquo;Liquid damage suspected&rdquo; OVERTURNED without sensor strip proof.
+                </div>
+              </TiltCard>
+
+              {/* Card 3: Interactive Evidence Lineage Graph */}
+              <TiltCard className="p-8" glowColor="rgba(82, 109, 255, 0.15)">
+                <div className="flex items-center justify-between mb-4">
+                  <span className="text-[11px] font-mono font-bold text-[#8DA0FF] uppercase tracking-wider">
+                    // REACT_FLOW_GRAPH
+                  </span>
+                  <Network className="h-4 w-4 text-[#8DA0FF]" />
+                </div>
+                <h3 className="text-xl font-bold text-white mb-2">
+                  Evidence Graph
+                </h3>
+                <p className="text-xs text-slate-400 leading-relaxed">
+                  Explore full documentary lineage in an interactive 2.5D visual canvas. Trace claims to invoices and policy clauses in real time.
+                </p>
+                <Link href="/cases/demo-washing-machine" className="inline-flex items-center gap-1.5 text-xs text-[#50D9E8] font-bold mt-4 hover:underline">
+                  Launch interactive graph →
+                </Link>
+              </TiltCard>
+
+              {/* Card 4: Span 2 Security & Vault */}
+              <TiltCard className="md:col-span-2 p-8" glowColor="rgba(21, 155, 114, 0.15)">
+                <div className="flex items-center justify-between mb-4">
+                  <span className="text-[11px] font-mono font-bold text-emerald-400 uppercase tracking-wider">
+                    // ZERO_LEAK_VAULT
+                  </span>
+                  <Lock className="h-4 w-4 text-emerald-400" />
+                </div>
+                <h3 className="text-2xl font-bold text-white mb-2">
+                  PostgreSQL Row-Level Security & Private Encrypted Buckets
+                </h3>
+                <p className="text-sm text-slate-400 max-w-xl leading-relaxed">
+                  Uploaded invoices, denial emails, and photographic evidence are quarantined behind strict tenant isolation policies. No public storage buckets and time-limited signed URLs prevent cross-tenant access.
+                </p>
+              </TiltCard>
             </div>
           </div>
         </section>
@@ -259,91 +320,15 @@ export default function HomePage() {
                 tag: "Red-Team Verified",
               },
             ].map((item, idx) => (
-              <div
-                key={idx}
-                className="p-6 rounded-2xl bg-[#101827] border border-slate-800 hover:border-[#526DFF]/50 transition-all space-y-3 relative group"
-              >
-                <div className="text-xs font-mono font-bold text-[#50D9E8]">{item.num}</div>
-                <h3 className="text-base font-bold text-white group-hover:text-[#8DA0FF] transition-colors">
-                  {item.title}
-                </h3>
-                <p className="text-xs text-slate-400 leading-relaxed">{item.desc}</p>
-                <span className="inline-block text-[10px] font-mono px-2 py-0.5 rounded bg-[#131F32] text-slate-300 border border-slate-700/60">
+              <TiltCard key={idx} className="p-6">
+                <div className="text-xs font-mono font-bold text-[#50D9E8] mb-2">{item.num}</div>
+                <h3 className="text-base font-bold text-white mb-2">{item.title}</h3>
+                <p className="text-xs text-slate-400 leading-relaxed mb-4">{item.desc}</p>
+                <span className="inline-block text-[10px] font-mono px-2 py-0.5 rounded bg-[#070B14] text-slate-300 border border-slate-700/60">
                   {item.tag}
                 </span>
-              </div>
+              </TiltCard>
             ))}
-          </div>
-        </section>
-
-        {/* SECTION D: EVIDENCE GRAPH PREVIEW */}
-        <section id="intelligence" className="py-20 bg-[#101827] border-y border-slate-800/80">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
-              <div className="lg:col-span-5 space-y-5">
-                <div className="text-xs font-mono font-bold tracking-wider uppercase text-[#50D9E8]">
-                  Interactive Evidence Graph
-                </div>
-                <h2 className="text-3xl font-extrabold text-white tracking-tight leading-tight">
-                  Every conclusion is traced to verifiable proof
-                </h2>
-                <p className="text-sm text-slate-300 leading-relaxed">
-                  WarrantyWise connects every assertion, policy clause, and invoice fact into a dimensional graph. Inspect verbatim excerpts, page citations, and contradiction edges in real-time.
-                </p>
-
-                <div className="space-y-3 pt-2 text-xs">
-                  <div className="flex items-center gap-2.5 text-slate-200">
-                    <CheckCircle2 className="h-4 w-4 text-emerald-400" />
-                    <span>Red edges highlight explicit factual contradictions.</span>
-                  </div>
-                  <div className="flex items-center gap-2.5 text-slate-200">
-                    <CheckCircle2 className="h-4 w-4 text-[#50D9E8]" />
-                    <span>Blue edges map policy condition dependencies.</span>
-                  </div>
-                  <div className="flex items-center gap-2.5 text-slate-200">
-                    <CheckCircle2 className="h-4 w-4 text-amber-400" />
-                    <span>Dashed lines flag missing technician documentation.</span>
-                  </div>
-                </div>
-
-                <div className="pt-4">
-                  <Link href="/cases/demo-washing-machine">
-                    <button className="px-5 py-2.5 rounded-xl text-xs font-bold text-white bg-[#526DFF] hover:bg-[#435ee8] transition-all flex items-center gap-1.5 cursor-pointer">
-                      Open Graph Specimen
-                      <ArrowRight className="h-3.5 w-3.5" />
-                    </button>
-                  </Link>
-                </div>
-              </div>
-
-              <div className="lg:col-span-7">
-                <div className="p-4 rounded-2xl bg-[#0B1220] border border-slate-800 shadow-2xl space-y-3">
-                  <div className="flex items-center justify-between border-b border-slate-800 pb-3">
-                    <span className="text-xs font-mono text-slate-400">GRAPH_VIEW // SmartHome Washer Case</span>
-                    <span className="text-[11px] px-2 py-0.5 rounded-full bg-red-500/20 text-red-300 border border-red-500/30 font-semibold">
-                      Contradicted Rejection
-                    </span>
-                  </div>
-                  <div className="h-64 rounded-xl bg-[#101827] border border-slate-800/80 p-4 flex flex-col justify-between text-xs">
-                    <div className="flex items-center justify-between">
-                      <div className="p-2.5 rounded-lg bg-red-500/10 border border-red-500/30 text-red-300 font-mono text-[11px]">
-                        Denial: &ldquo;Expired Jan 9, 2026&rdquo;
-                      </div>
-                      <div className="h-0.5 flex-1 bg-gradient-to-r from-red-500/50 to-emerald-500/50 mx-4" />
-                      <div className="p-2.5 rounded-lg bg-emerald-500/10 border border-emerald-500/30 text-emerald-300 font-mono text-[11px]">
-                        Invoice: Jan 10, 2025 (Pg 1)
-                      </div>
-                    </div>
-                    <div className="p-3 bg-[#0B1220] rounded-lg border border-slate-800 text-slate-300 text-[11px] space-y-1">
-                      <span className="font-bold text-[#50D9E8] block">Policy §3.1 Lineage:</span>
-                      <p>
-                        Warranted 12 months from original purchase date. Denial issued Dec 20, 2025 is conclusively premature.
-                      </p>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
           </div>
         </section>
 
@@ -369,7 +354,7 @@ export default function HomePage() {
       </main>
 
       {/* Footer */}
-      <footer className="bg-[#0B1220] border-t border-slate-800/80 py-10">
+      <footer className="bg-[#070B14] border-t border-slate-800/80 py-10">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row items-center justify-between gap-4 text-xs text-slate-500">
           <div className="flex items-center gap-2 font-bold text-slate-300">
             <ShieldAlert className="h-4 w-4 text-[#50D9E8]" />
