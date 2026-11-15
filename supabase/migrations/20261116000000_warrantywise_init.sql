@@ -297,3 +297,4 @@ CREATE INDEX IF NOT EXISTS idx_extracted_facts_case_id ON public.extracted_facts
 CREATE INDEX IF NOT EXISTS idx_policy_clauses_case_id ON public.policy_clauses(case_id);
 CREATE INDEX IF NOT EXISTS idx_evidence_items_case_id ON public.evidence_items(case_id);
 CREATE INDEX IF NOT EXISTS idx_investigation_findings_case_id ON public.investigation_findings(case_id);
+

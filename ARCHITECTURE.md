@@ -51,3 +51,4 @@ Every finding is strictly anchored to traceable source evidence (document ID, pa
 4. **Stage D — Initial Investigator:** Synthesizes evidence against policy rules using deterministic date/logic validation to yield provisional findings.
 5. **Stage E — Independent Red-Team Auditor:** Adversarial critic specifically tasked with uncovering unverified assumptions, date ambiguities, misread exclusions, or missing proof in the initial findings.
 6. **Stage F — Final Reconciler:** Merges auditor critique with deterministic rules and verified provenance to output an objective investigation outcome: `SUPPORTED`, `CONTRADICTED`, or `INSUFFICIENT_EVIDENCE`.
+

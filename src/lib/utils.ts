@@ -31,3 +31,4 @@ export function formatCurrency(amount: number | null | undefined, currency: stri
     return `${currency} ${amount}`;
   }
 }
+

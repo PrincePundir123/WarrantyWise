@@ -92,3 +92,4 @@ This document tracks the phased execution plan for WarrantyWise in accordance wi
 - [ ] Unit tests for deterministic rule engine (date math, 3-valued logic, boundary checks)
 - [ ] End-to-end user journey verification via browser
 - [ ] Documentation: `README.md` with complete setup, architecture, and verification steps
+

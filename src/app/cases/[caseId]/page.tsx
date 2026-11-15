@@ -408,7 +408,7 @@ export default function CaseWorkspacePage() {
                   Warranty Claim Investigation Report
                 </h1>
                 <div className="text-xs text-slate-500 mt-1">
-                  Investigation Reference: <strong>WW-EAC-2026-991</strong> &bull; Generated: {new Date().toLocaleDateString()}
+                  Investigation Reference: <strong>WW-EAC-2026-991</strong> &bull; Generated: 2026-11-16
                 </div>
               </div>
               <div className="text-right">
@@ -501,3 +501,4 @@ export default function CaseWorkspacePage() {
     </div>
   );
 }
+

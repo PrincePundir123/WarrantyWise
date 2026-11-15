@@ -255,7 +255,7 @@ export default function HomePage() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row items-center justify-between gap-4 text-xs text-slate-500">
           <div className="flex items-center gap-2 font-bold text-slate-800">
             <ShieldAlert className="h-4 w-4 text-[#3867E8]" />
-            WarrantyWise &copy; {new Date().getFullYear()} — Evidence Intelligence Platform
+            WarrantyWise &copy; 2026 — Evidence Intelligence Platform
           </div>
           <div className="flex items-center gap-6">
             <Link href="/login" className="hover:text-slate-900">Sign In</Link>

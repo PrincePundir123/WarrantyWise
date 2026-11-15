@@ -142,3 +142,4 @@ export const SAMPLE_CLAUSES: PolicyClause[] = [
     created_at: "2025-12-21T10:06:15Z",
   },
 ];
+
