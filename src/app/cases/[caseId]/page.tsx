@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect, use, Suspense } from "react";
 import Link from "next/link";
 import {
   ArrowLeft,
@@ -20,10 +20,42 @@ import { SAMPLE_CASES } from "@/lib/demo-data";
 import { SAMPLE_DOCUMENTS, SAMPLE_FACTS, SAMPLE_CLAUSES } from "@/lib/demo-details";
 import { EvidenceGraphViewer } from "@/components/evidence-graph/EvidenceGraphViewer";
 import { formatDate } from "@/lib/utils";
+import { Case, DocumentItem, ExtractedFact } from "@/types";
 
-export default function EditorialCaseWorkspacePage() {
-  const caseData = SAMPLE_CASES[0]; // Washing machine specimen
+function CaseWorkspaceContent({
+  params,
+}: {
+  params: Promise<{ caseId: string }>;
+}) {
+  const resolvedParams = use(params);
+  const caseId = resolvedParams.caseId;
+
+  // Find in sample cases or use default
+  const defaultCase = SAMPLE_CASES.find((c) => c.id === caseId) || SAMPLE_CASES[0];
+  const [caseData, setCaseData] = useState<Case>(defaultCase);
+  const [documents, setDocuments] = useState<DocumentItem[]>(SAMPLE_DOCUMENTS);
+  const [facts, setFacts] = useState<ExtractedFact[]>(SAMPLE_FACTS);
   const [activeTab, setActiveTab] = useState<"overview" | "documents" | "investigation" | "graph" | "report">("overview");
+
+  useEffect(() => {
+    // Check if there is a real record in database for this caseId
+    if (caseId && caseId !== "demo-washing-machine") {
+      fetch(`/api/cases/${caseId}`)
+        .then((res) => res.json())
+        .then((json) => {
+          if (json.success && json.data?.case) {
+            setCaseData(json.data.case);
+            if (json.data.documents && json.data.documents.length > 0) {
+              setDocuments(json.data.documents);
+            }
+            if (json.data.facts && json.data.facts.length > 0) {
+              setFacts(json.data.facts);
+            }
+          }
+        })
+        .catch(() => {});
+    }
+  }, [caseId]);
 
   return (
     <div className="min-h-screen bg-[#F4F1EA] text-[#1F231F] font-sans selection:bg-[#AD593E] selection:text-white flex flex-col">
@@ -355,5 +387,23 @@ export default function EditorialCaseWorkspacePage() {
         )}
       </main>
     </div>
+  );
+}
+
+export default function EditorialCaseWorkspacePage({
+  params,
+}: {
+  params: Promise<{ caseId: string }>;
+}) {
+  return (
+    <Suspense
+      fallback={
+        <div className="min-h-screen bg-[#F4F1EA] flex items-center justify-center font-mono text-xs text-[#5F665E]">
+          // INGESTING ARCHIVAL DOSSIER...
+        </div>
+      }
+    >
+      <CaseWorkspaceContent params={params} />
+    </Suspense>
   );
 }

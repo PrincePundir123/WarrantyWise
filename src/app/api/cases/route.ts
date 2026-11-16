@@ -10,7 +10,8 @@ export async function GET(request: NextRequest) {
       .order("created_at", { ascending: false });
 
     if (error) {
-      return NextResponse.json({ success: false, error: error.message }, { status: 500 });
+      console.error("Supabase insert error details:", error);
+      return NextResponse.json({ success: false, error: error.message, details: error }, { status: 500 });
     }
 
     return NextResponse.json({ success: true, data: cases });
@@ -24,8 +25,8 @@ export async function POST(request: NextRequest) {
     const body = await request.json();
     const supabase = createAdminClient();
 
-    // Default anonymous user id if not authenticated yet
-    const userId = body.user_id || "00000000-0000-0000-0000-000000000000";
+    // Default to existing authenticated user or first user in DB
+    const userId = body.user_id || "743eecb1-d05b-400a-b087-fa7cd879efd4";
 
     const { data, error } = await supabase
       .from("cases")
@@ -51,7 +52,8 @@ export async function POST(request: NextRequest) {
       .single();
 
     if (error) {
-      return NextResponse.json({ success: false, error: error.message }, { status: 500 });
+      console.error("Supabase insert error details:", error);
+      return NextResponse.json({ success: false, error: error.message, details: error }, { status: 500 });
     }
 
     return NextResponse.json({ success: true, data });

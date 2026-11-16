@@ -42,7 +42,7 @@ export async function POST(
     for (const finding of result.findings) {
       await supabase.from("investigation_findings").insert({
         case_id: caseId,
-        investigation_run_id: "00000000-0000-0000-0000-000000000000",
+        investigation_run_id: caseId,
         finding_type: finding.finding_type,
         title: finding.title,
         description: finding.description,

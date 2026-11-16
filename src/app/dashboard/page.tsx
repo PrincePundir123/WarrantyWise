@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import {
   Search,
@@ -21,9 +21,28 @@ import { formatDate } from "@/lib/utils";
 import { Case } from "@/types";
 
 export default function EditorialDashboardPage() {
-  const [cases] = useState<Case[]>(SAMPLE_CASES);
+  const [cases, setCases] = useState<Case[]>(SAMPLE_CASES);
   const [search, setSearch] = useState("");
   const [filter, setFilter] = useState<string>("ALL");
+
+  useEffect(() => {
+    async function loadCases() {
+      try {
+        const res = await fetch("/api/cases");
+        const json = await res.json();
+        if (json.success && json.data && json.data.length > 0) {
+          // Merge newly created live cases with sample cases
+          const liveCases: Case[] = json.data;
+          const liveIds = new Set(liveCases.map(c => c.id));
+          const combined = [...liveCases, ...SAMPLE_CASES.filter(sc => !liveIds.has(sc.id))];
+          setCases(combined);
+        }
+      } catch (err) {
+        console.warn("Could not fetch live cases, using fallback sample cases.", err);
+      }
+    }
+    loadCases();
+  }, []);
 
   const filteredCases = cases.filter((c) => {
     const matches =

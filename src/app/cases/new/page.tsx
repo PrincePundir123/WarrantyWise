@@ -107,10 +107,44 @@ export default function NewCaseWizardPage() {
 
   const handleSubmit = async () => {
     setLoading(true);
-    // Simulating deterministic orchestration launch
-    setTimeout(() => {
+    try {
+      // 1. Create real case in Supabase via API
+      const res = await fetch("/api/cases", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          title: `${productName} Dispute`,
+          product_name: productName,
+          manufacturer: manufacturer,
+          product_category: category,
+          model_number: modelNumber,
+          serial_number: serialNumber,
+          purchase_date: purchaseDate,
+          purchase_price: purchasePrice,
+          currency: currency,
+          country: country,
+          claim_reference: claimReference,
+          rejection_date: rejectionDate,
+          rejection_reason: rejectionReason,
+        }),
+      });
+
+      const json = await res.json();
+      if (json.success && json.data?.id) {
+        const newCaseId = json.data.id;
+        // 2. Trigger bounded investigation
+        await fetch(`/api/cases/${newCaseId}/investigate`, { method: "POST" });
+        // 3. Navigate directly to the new live dossier
+        router.push(`/cases/${newCaseId}`);
+      } else {
+        router.push("/cases/demo-washing-machine");
+      }
+    } catch (err) {
+      console.error("Failed to persist case:", err);
       router.push("/cases/demo-washing-machine");
-    }, 1200);
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
